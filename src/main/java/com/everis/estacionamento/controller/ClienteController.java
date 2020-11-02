@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.everis.estacionamento.model.Cliente;
 import com.everis.estacionamento.service.ClienteService;
+
 
 @Controller
 public class ClienteController {
@@ -42,6 +44,17 @@ public class ClienteController {
 		attributes.addFlashAttribute("mensagemSucesso", "Cadastro realizado com sucesso");
 		return "redirect:/salvarcliente";
 	}
+	
+	
+	@RequestMapping(value="/listarclientes",  method = RequestMethod.GET)
+	public String listarClientes(Model model) {
+		
+		Iterable<Cliente> clientes = clienteService.findAll(); //
+		model.addAttribute("clientes", clientes);			
+		return "listarclientes";
+	}
+	
+	
 	
 	
 
