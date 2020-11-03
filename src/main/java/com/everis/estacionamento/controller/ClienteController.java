@@ -1,5 +1,7 @@
 package com.everis.estacionamento.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.everis.estacionamento.model.Cliente;
 import com.everis.estacionamento.service.ClienteService;
+
 
 
 @Controller
@@ -53,6 +57,15 @@ public class ClienteController {
 		model.addAttribute("clientes", clientes);			
 		return "listarclientes";
 	}
+		
+	
+//	@RequestMapping(value="/salvarveiculo", method = RequestMethod.GET)
+//	public ModelAndView listarClientes() {
+//		ModelAndView mv = new ModelAndView("clientes"); 
+//		List<Cliente> clientes = clienteService.findAll();
+//		mv.addObject("clientes", clientes); 
+//		return mv;
+//	}
 	
 	
 	

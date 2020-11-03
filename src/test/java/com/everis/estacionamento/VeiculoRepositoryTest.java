@@ -34,7 +34,6 @@ public class VeiculoRepositoryTest {
 	Assertions.assertThat(cliente.getNome()).isEqualTo("Gabriela");
 	Assertions.assertThat(cliente.getTelefone()).isEqualTo("99819883");
 	Assertions.assertThat(cliente.getEmail()).isEqualTo("gab@gmail.com");
-	
-	
+		
 	}
 }

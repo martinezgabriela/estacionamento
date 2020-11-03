@@ -57,13 +57,13 @@ public class ClienteRepositoryTest {
 		Assertions.assertThat(cliente.getEmail()).isEqualTo("gabi@gmail.com");
 	}
 	
-//	@Test
-//	public void deveAcharClientePorId() {
-//		Cliente cliente = new Cliente("Gabriela", "99819883", "gab@gmail.com");
-//		cliente = this.clienteRepository.save(cliente);
-//		this.clienteRepository.findById(cliente.getId()).
-//		
-//	}
+	@Test
+	public void deveAcharClientePorId() {
+		Cliente cliente = new Cliente("Gabriela", "99819883", "gab@gmail.com");
+		cliente = this.clienteRepository.save(cliente);
+		Cliente cliente2 = this.clienteRepository.findById(cliente.getId()).get();
+		Assertions.assertThat(cliente2.getId()).isEqualTo(cliente.getId());		
+	}
 
 }
 		
