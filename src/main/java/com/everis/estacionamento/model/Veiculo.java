@@ -17,8 +17,10 @@ import javax.validation.constraints.NotBlank;
 public class Veiculo {
 	
 	
-	@Id
+	@Id 
 	@GeneratedValue (strategy = GenerationType.AUTO)
+	private Long id;
+	
 	private String placa;	
 	@NotBlank
 	private String marca;
@@ -28,7 +30,7 @@ public class Veiculo {
 	@NotBlank
 	private TipoVeiculo tipoVeiculo;		
 	
-	@JoinColumn(unique=true) 
+	@JoinColumn(name="fk_id_cliente") 
 	@ManyToOne
 	@NotBlank
 	private Cliente cliente;

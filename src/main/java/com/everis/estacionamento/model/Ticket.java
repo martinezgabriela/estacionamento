@@ -23,7 +23,7 @@ public class Ticket {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn (name="fk_placa")
+	@JoinColumn (name="fk_id_Veiculo")
 	@NotBlank 
 	private Veiculo veiculo;
 	
@@ -37,14 +37,13 @@ public class Ticket {
 	private double valorEstadia;
 	
 	@ManyToOne
-	@JoinColumn (name="fk_estacionamento")
+	@JoinColumn (name="fk_id_estacionamento")
 	@NotBlank 
 	private Estacionamento estacionamento;
 	
 	public Ticket() {
 		
 	}	
-	
 	
 
 	public Long getId() {

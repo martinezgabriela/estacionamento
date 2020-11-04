@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.everis.estacionamento.model.Cliente;
 import com.everis.estacionamento.repository.ClienteRepository;
+import com.everis.estacionamento.service.ClienteService;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -20,6 +21,9 @@ public class ClienteRepositoryTest {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private ClienteService clienteService;
 
 	@Rule // nós vamos dizer quais exceções esperamos no método e caso elas não ocorram
 			// nosso teste será falho:
@@ -38,9 +42,9 @@ public class ClienteRepositoryTest {
 	@Test
 	public void deveDeletarCliente() {
 		Cliente cliente = new Cliente("Gabriela", "99819883", "gab@gmail.com");
-		this.clienteRepository.save(cliente);
-		this.clienteRepository.deleteById(cliente.getId());
-		Assertions.assertThat(clienteRepository.findById(cliente.getId())).isEmpty();
+		this.clienteService.save(cliente);
+		this.clienteService.deleteById(cliente);
+		Assertions.assertThat(clienteService.findById(cliente.getId()));
 	}
 	
 	@Test

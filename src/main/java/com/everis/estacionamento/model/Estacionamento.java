@@ -20,10 +20,10 @@ public class Estacionamento {
 	private double valorTarifa;
 	
 	@NotBlank
-	private int totalDeVagas;
+	private int totalVagasEstacionamento;
 	
-	public Estacionamento() {
-		
+
+	public Estacionamento() {		
 	}
 	
 	public Long getId() {
@@ -38,12 +38,16 @@ public class Estacionamento {
 	public void setValorTarifa(double valorTarifa) {
 		this.valorTarifa = valorTarifa;
 	}
-	public int getTotalDeVagas() {
-		return totalDeVagas;
+	
+		
+	public int getTotalVagasEstacionamento() {
+		return totalVagasEstacionamento;
 	}
-	public void setTotalDeVagas(int totalDeVagas) {
-		this.totalDeVagas = totalDeVagas;
+
+	public void setTotalVagasEstacionamento(int totalVagasEstacionamento) {
+		this.totalVagasEstacionamento = totalVagasEstacionamento;
 	}
+	
 	
 
 		
