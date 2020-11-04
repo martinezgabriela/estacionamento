@@ -1,71 +1,58 @@
 package com.everis.estacionamento.controller;
 
-import java.util.List;
-
+import java.net.URI;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import com.everis.estacionamento.controller.dto.ClienteDto;
 import com.everis.estacionamento.model.Cliente;
 import com.everis.estacionamento.service.ClienteService;
 
 
-
-@Controller
+@RestController
+@RequestMapping("/clientes")
 public class ClienteController {
 
 	@Autowired
 	ClienteService clienteService;
 	
 	
-	
-	@RequestMapping("/")
-    public String index(){
-        return "index";
-    }
-	
-	
-	
-	 @RequestMapping(value="/salvarcliente", method=RequestMethod.GET)
-	  public String getClienteForm() {
-		  return "salvarcliente";
-	  }
 
-	@RequestMapping(value="/salvarcliente", method=RequestMethod.POST)
-	public String salvarClienteNoBanco(@Valid Cliente cliente, BindingResult result, RedirectAttributes attributes) {
-		if(result.hasErrors()) {
-			attributes.addFlashAttribute("mensagem", "Verifique se os campos obrigatórios foram inseridos.");
-			return "redirect:/salvarcliente";
-		}
+	@PostMapping
+	@Transactional
+	public ResponseEntity<Cliente> cadastrarCliente(@Valid @RequestBody Cliente cliente, UriComponentsBuilder uriBuilder) {
 		clienteService.save(cliente);
-		attributes.addFlashAttribute("mensagemSucesso", "Cadastro realizado com sucesso");
-		return "redirect:/salvarcliente";
+		URI uri = uriBuilder.path("/clientes/{id}").buildAndExpand(cliente.getId()).toUri();
+		return ResponseEntity.created(uri).body(cliente);
+	}
+	
+	@GetMapping
+	public Page <ClienteDto> listaCliente(@RequestParam (required=false) String nomeCliente, @PageableDefault (sort="nome", direction=Direction.ASC, page=0, size=15)
+									 Pageable paginacao){
+		if(nomeCliente==null) {
+			Page<Cliente> clientes = clienteService.findAll(paginacao);
+			return ClienteDto.converter(clientes);
+		} else {
+			Page<Cliente> clientes = clienteService.findByNome(nomeCliente, paginacao);
+			return ClienteDto.converter(clientes);
+		}
 	}
 	
 	
-	@RequestMapping(value="/listarclientes",  method = RequestMethod.GET)
-	public String listarClientes(Model model) {
-		
-		Iterable<Cliente> clientes = clienteService.findAll(); //
-		model.addAttribute("clientes", clientes);			
-		return "listarclientes";
-	}
-		
-	
-//	@RequestMapping(value="/salvarveiculo", method = RequestMethod.GET)
-//	public ModelAndView listarClientes() {
-//		ModelAndView mv = new ModelAndView("clientes"); 
-//		List<Cliente> clientes = clienteService.findAll();
-//		mv.addObject("clientes", clientes); 
-//		return mv;
-//	}
 	
 	
 	

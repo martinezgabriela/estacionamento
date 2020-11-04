@@ -3,6 +3,8 @@ package com.everis.estacionamento.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.everis.estacionamento.model.Cliente;
@@ -16,8 +18,8 @@ public class ClienteServiceImpl implements ClienteService {
 	ClienteRepository clienteRepository;
 	
 	@Override
-	public List<Cliente> findAll() {
-		return clienteRepository.findAll();
+	public Page<Cliente> findAll(Pageable paginacao) {
+		return clienteRepository.findAll(paginacao);
 	}
 
 	@Override
@@ -36,6 +38,11 @@ public class ClienteServiceImpl implements ClienteService {
 		
 	}
 
+	@Override
+	public Page<Cliente> findByNome(String cliente, Pageable paginacao) {
+		Page<Cliente> clienteEncontrado = clienteRepository.findByNome(cliente, paginacao);
+		return clienteEncontrado;
+	}
 	
 
 

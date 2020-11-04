@@ -19,26 +19,22 @@ public class Veiculo {
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)
-	private Long id;
-	
-	
+	private String placa;	
+	@NotBlank
 	private String marca;
-	
-	
-	private String cor;
-	
-	
-	private String placa;
-	
+	@NotBlank
+	private String cor;		
 	@Enumerated(EnumType.STRING)
-	private TipoVeiculo tipoVeiculo;	
-	
+	@NotBlank
+	private TipoVeiculo tipoVeiculo;		
 	
 	@JoinColumn(unique=true) 
 	@ManyToOne
+	@NotBlank
 	private Cliente cliente;
 	
 	public Veiculo() {
+		
 	}
 	
 	public Veiculo(String marca, String cor, String placa, Cliente cliente) {
@@ -46,15 +42,6 @@ public class Veiculo {
 		this.marca = marca;
 		this.cor = cor;
 		this.placa = placa;
-		this.cliente = cliente;
-	}
-
-	public Veiculo(String marca, String cor, String placa, TipoVeiculo tipoVeiculo, Cliente cliente) {
-		
-		this.marca = marca;
-		this.cor = cor;
-		this.placa = placa;
-		this.tipoVeiculo = tipoVeiculo;
 		this.cliente = cliente;
 	}
 
@@ -97,6 +84,9 @@ public class Veiculo {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+	
+	
+	
 	
 	
 	

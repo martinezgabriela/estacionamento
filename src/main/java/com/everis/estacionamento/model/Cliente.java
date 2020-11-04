@@ -10,7 +10,6 @@ import javax.validation.constraints.NotBlank;
 
 
 
-
 @Entity
 @Table (name="TB_CLIENTE")
 public class Cliente {

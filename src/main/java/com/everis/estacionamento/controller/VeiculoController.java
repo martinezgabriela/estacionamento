@@ -26,13 +26,13 @@ public class VeiculoController {
 	@Autowired
 	ClienteService clienteService;
 	
-	@RequestMapping(value="/salvarveiculo", method=RequestMethod.GET)
-	public String getVeiculoForm(Model model) {
-		Iterable<Cliente> clientes = clienteService.findAll(); //
-		model.addAttribute("listaclientes", clientes);	
-		
-		return "salvarveiculo";		
-	}
+//	@RequestMapping(value="/salvarveiculo", method=RequestMethod.GET)
+//	public String getVeiculoForm(Model model) {
+//		Iterable<Cliente> clientes = clienteService.findAll(); //
+//		model.addAttribute("listaclientes", clientes);	
+//		
+//		return "salvarveiculo";		
+//	}
 	
 	@RequestMapping(value="/salvarveiculo", method=RequestMethod.POST)
 	public String salvarVeiculoNoBanco(Model model, @Valid @ModelAttribute("listaclientes") Veiculo veiculo, BindingResult result, RedirectAttributes attributes) {
