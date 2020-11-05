@@ -10,6 +10,8 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long>{
 	
 	public Page<Cliente> findByNome(String nome, Pageable paginacao);
 	
+	public Cliente findByNome(String nome);
+	
 	public Page<Cliente> findAll(Pageable paginacao);
 	
 	

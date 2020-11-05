@@ -1,8 +1,7 @@
 package com.everis.estacionamento.controller.dto;
-
 import org.springframework.data.domain.Page;
-import com.everis.estacionamento.model.Cliente;
 
+import com.everis.estacionamento.model.Cliente;
 
 public class ClienteDtoParaEnviar {
 

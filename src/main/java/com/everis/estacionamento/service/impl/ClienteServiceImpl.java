@@ -26,6 +26,12 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Override
 	public Cliente findById(Long id) {
+		try {
+			clienteRepository.findById(id).get();
+		} catch(NoSuchElementException e) {
+			e.getMessage();
+			return null;
+		}
 		return clienteRepository.findById(id).get();
 	}
 
@@ -45,13 +51,19 @@ public class ClienteServiceImpl implements ClienteService {
 		return clienteEncontrado;
 	}
 	
-	public Cliente atualizar(Long id, ClienteDtoParaReceber clienteAtualizar) {
+	public Cliente atualizar(Long id, Cliente clienteAtualizar) {
 		Cliente clienteDB = clienteRepository.findById(id).get();
 		clienteDB.setEmail(clienteAtualizar.getEmail());
 		clienteDB.setNome(clienteAtualizar.getNome());
 		clienteDB.setTelefone(clienteAtualizar.getTelefone());
 		return clienteRepository.save(clienteDB);
 		
+	}
+
+	@Override
+	public Cliente findByNome(String nome) {
+		Cliente clienteEncontrado = clienteRepository.findByNome(nome);
+		return clienteEncontrado;
 	}
 
 

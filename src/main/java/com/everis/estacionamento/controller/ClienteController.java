@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +27,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.everis.estacionamento.controller.dto.ClienteDtoParaEnviar;
 import com.everis.estacionamento.controller.dto.ClienteDtoParaReceber;
-import com.everis.estacionamento.controller.form.AtualizaClienteForm;
 import com.everis.estacionamento.model.Cliente;
 import com.everis.estacionamento.service.ClienteService;
 
@@ -72,28 +70,9 @@ public class ClienteController {
 			System.out.println(e.getMessage());
 			return ResponseEntity.notFound().build();
 		}
-		Cliente clienteAtualizado =  clienteService.atualizar(id, clienteAtualizar);
+		Cliente clienteAtualizado =  clienteService.atualizar(id, clienteAtualizar.converter());
 		return ResponseEntity.ok(new ClienteDtoParaEnviar(clienteAtualizado));
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-//	public ResponseEntity<ClienteDtoParaEnviar> atualizarCliente(@PathVariable Long id,
-//			@Valid @RequestBody AtualizaClienteForm form) {				
-//		try {
-//			Cliente cliente = clienteService.findById(id);			
-//		} catch (NoSuchElementException e) {
-//			System.out.println(e.getMessage());
-//			return ResponseEntity.notFound().build();
-//		}
-//		Cliente clienteAtualizado = form.atualizar(id, clienteService);
-//		return ResponseEntity.ok(new ClienteDtoParaEnviar(clienteAtualizado));		
-//	}
 	
 	
 	@DeleteMapping ("/{id}")

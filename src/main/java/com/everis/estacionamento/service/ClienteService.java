@@ -16,10 +16,13 @@ public interface ClienteService {
 	Cliente findById(Long id);
 	Cliente save(Cliente cliente);
 	void deleteById(Long id);
-	Page<Cliente> findByNome(String cliente, Pageable paginacao);
+	Page<Cliente> findByNome(String nome, Pageable paginacao);
 	//boolean isEmpty(Cliente cliente);
 	
-	public Cliente atualizar(Long id, ClienteDtoParaReceber clienteAtualizar);
+	public Cliente findByNome(String nome);
+	public Cliente atualizar(Long id, Cliente clienteAtualizar);
+	
+	
 	
 	
 	

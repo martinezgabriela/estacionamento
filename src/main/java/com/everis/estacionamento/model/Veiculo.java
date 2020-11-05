@@ -26,6 +26,7 @@ public class Veiculo {
 	private String marca;
 	@NotBlank
 	private String cor;		
+	
 	@Enumerated(EnumType.STRING)
 	@NotBlank
 	private TipoVeiculo tipoVeiculo;		
