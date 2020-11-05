@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import com.everis.estacionamento.model.Cliente;
 
 
-public class ClienteDto {
+public class ClienteDtoParaEnviar {
 
 	private Long id;	
 	private String nome;	
@@ -12,7 +12,7 @@ public class ClienteDto {
 	private String email;
 	
 	
-	public ClienteDto(Cliente cliente) {
+	public ClienteDtoParaEnviar(Cliente cliente) {
 		this.id =cliente.getId();
 		this.nome = cliente.getNome();
 		this.telefone = cliente.getTelefone();
@@ -59,9 +59,11 @@ public class ClienteDto {
 		this.email = email;
 	}
 	
-	public static Page <ClienteDto> converter (Page<Cliente> clientes){
-		return clientes.map(ClienteDto::new);
+	public static Page <ClienteDtoParaEnviar> converter (Page<Cliente> clientes){
+		return clientes.map(ClienteDtoParaEnviar::new);
 	}
+	
+	
 	
 	
 }

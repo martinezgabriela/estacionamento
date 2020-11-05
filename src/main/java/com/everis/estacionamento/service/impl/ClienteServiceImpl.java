@@ -1,10 +1,13 @@
 package com.everis.estacionamento.service.impl;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.everis.estacionamento.controller.dto.ClienteDtoParaReceber;
 import com.everis.estacionamento.model.Cliente;
 import com.everis.estacionamento.repository.ClienteRepository;
 import com.everis.estacionamento.service.ClienteService;
@@ -32,15 +35,23 @@ public class ClienteServiceImpl implements ClienteService {
 	}
 
 	@Override
-	public void deleteById(Cliente cliente) {
-		clienteRepository.deleteById(cliente.getId());
-		
+	public void deleteById(Long id) {		
+		clienteRepository.deleteById(id);		
 	}
 
 	@Override
 	public Page<Cliente> findByNome(String cliente, Pageable paginacao) {
 		Page<Cliente> clienteEncontrado = clienteRepository.findByNome(cliente, paginacao);
 		return clienteEncontrado;
+	}
+	
+	public Cliente atualizar(Long id, ClienteDtoParaReceber clienteAtualizar) {
+		Cliente clienteDB = clienteRepository.findById(id).get();
+		clienteDB.setEmail(clienteAtualizar.getEmail());
+		clienteDB.setNome(clienteAtualizar.getNome());
+		clienteDB.setTelefone(clienteAtualizar.getTelefone());
+		return clienteRepository.save(clienteDB);
+		
 	}
 
 

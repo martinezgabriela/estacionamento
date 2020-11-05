@@ -39,14 +39,14 @@ public class ClienteRepositoryTest {
 		Assertions.assertThat(cliente.getEmail()).isEqualTo("gab@gmail.com");
 	}
 	
-	@Test
-	public void deveDeletarCliente() {
-		Cliente cliente = new Cliente("Gabriela", "99819883", "gab@gmail.com");
-		this.clienteService.save(cliente);
-		this.clienteService.deleteById(cliente);
-		Assertions.assertThat(clienteService.findById(cliente.getId()));
-	}
-	
+//	@Test
+//	public void deveDeletarCliente() {
+//		Cliente cliente = new Cliente("Gabriela", "99819883", "gab@gmail.com");
+//		this.clienteService.save(cliente);
+//		this.clienteService.deleteById(cliente.f);
+//		Assertions.assertThat(clienteService.findById(cliente.getId()));
+//	}
+//	
 	@Test
 	public void deveFazerUpdateEPersistirCliente() {
 		Cliente cliente = new Cliente("Gabriela", "99819883", "gab@gmail.com");
