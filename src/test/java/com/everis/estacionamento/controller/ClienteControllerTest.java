@@ -32,6 +32,23 @@ public class ClienteControllerTest {
 		mvc.perform(MockMvcRequestBuilders.post(uri).content(json).contentType(MediaType.APPLICATION_JSON))
 		.andExpect(MockMvcResultMatchers.status().is(201));
 	}
+	
+	@Test
+	public void deveAtualizarCliente() throws Exception {
+		URI uri = new URI ("/clientes/18");
+		String json = "{\"nome\":\"gabriella\", \"telefone\":\"1111111\", \"email\":\"gabriela@martinez.com\"}";
+		mvc.perform(MockMvcRequestBuilders.put(uri).content(json).contentType(MediaType.APPLICATION_JSON))
+		.andExpect(MockMvcResultMatchers.status().is(200));
+		
+	}
+	
+	@Test
+	public void deveRemoverCliente() throws Exception {
+		URI uri = new URI ("/clientes/18");
+		mvc.perform(MockMvcRequestBuilders.delete(uri))
+		.andExpect(MockMvcResultMatchers.status().is(200));
+		
+	}
 
 }
 
