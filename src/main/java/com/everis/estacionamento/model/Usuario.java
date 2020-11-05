@@ -39,6 +39,26 @@ public class Usuario implements UserDetails {
 		return this.perfis;
 	}
 	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public List<Perfil> getPerfis() {
+		return perfis;
+	}
+
 	@Override
 	public String getPassword() {		
 		return this.senha;
