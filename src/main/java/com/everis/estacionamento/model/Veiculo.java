@@ -1,5 +1,7 @@
 package com.everis.estacionamento.model;
 
+import java.util.Map;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -40,11 +42,12 @@ public class Veiculo {
 		
 	}
 	
-	public Veiculo(String marca, String cor, String placa, Cliente cliente) {
+	public Veiculo(String marca, String cor, String placa, TipoVeiculo tipoVeiculo, Cliente cliente) {
 		
 		this.marca = marca;
 		this.cor = cor;
 		this.placa = placa;
+		this.tipoVeiculo = tipoVeiculo;
 		this.cliente = cliente;
 	}
 
@@ -87,6 +90,12 @@ public class Veiculo {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+
 	
 	
 	

@@ -1,57 +1,55 @@
 package com.everis.estacionamento.controller;
 
+import java.net.URI;
+import java.util.List;
+
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import com.everis.estacionamento.model.Cliente;
+import com.everis.estacionamento.controller.dto.VeiculoDtoParaEnviar;
+import com.everis.estacionamento.controller.dto.VeiculoDtoParaReceber;
 import com.everis.estacionamento.model.Veiculo;
-import com.everis.estacionamento.repository.VeiculoRepository;
-import com.everis.estacionamento.service.ClienteService;
 import com.everis.estacionamento.service.VeiculoService;
 
-@Controller
+@RestController
+@RequestMapping("/veiculos")
 public class VeiculoController {
 	
 	@Autowired
 	VeiculoService veiculoService;
 	
-	@Autowired
-	ClienteService clienteService;
-	
-//	@RequestMapping(value="/salvarveiculo", method=RequestMethod.GET)
-//	public String getVeiculoForm(Model model) {
-//		Iterable<Cliente> clientes = clienteService.findAll(); //
-//		model.addAttribute("listaclientes", clientes);	
-//		
-//		return "salvarveiculo";		
-//	}
-	
-	@RequestMapping(value="/salvarveiculo", method=RequestMethod.POST)
-	public String salvarVeiculoNoBanco(Model model, @Valid @ModelAttribute("listaclientes") Veiculo veiculo, BindingResult result, RedirectAttributes attributes) {
-		if(result.hasErrors()) {
-			attributes.addFlashAttribute("mensagem", "Verifique se os campos obrigatórios foram inseridos.");
-			return "redirect:/salvarveiculo";
-		}
+	@PostMapping
+	@Transactional
+	public ResponseEntity<Veiculo> cadastrarVeiculo(@Valid @RequestBody VeiculoDtoParaReceber veiculoDtoParaReceber, 
+			UriComponentsBuilder uriBuilder){
 		
-//		if(veiculo2 != null) {
-//			System.out.println(veiculo2.getMarca());
-//			Cliente c = veiculo2.getCliente();
-//			if(c != null) {
-//				System.out.println(c.getNome());
-//			}
-//		}
+		Veiculo veiculo = veiculoDtoParaReceber.converter();
 		veiculoService.save(veiculo);
-		attributes.addFlashAttribute("mensagemSucesso", "Cadastro realizado com sucesso");
-		return "redirect:/salvarveiculo";
+		URI uri = uriBuilder.path("/veiculos/{id}").buildAndExpand(veiculo.getId()).toUri();
+		return ResponseEntity.ok().build();
 	}
+	
+	//metodo que lista veiculos - pode ser usado com filtro por nomeCliente ou sem filtro
+	@GetMapping
+	public List<VeiculoDtoParaEnviar> listarVeiculos(String nomeCliente){
+		if(nomeCliente==null) {
+			List<Veiculo> veiculos = veiculoService.findAll();
+			return VeiculoDtoParaEnviar.converter(veiculos);
+		} else {
+			List<Veiculo> veiculos = veiculoService.findByClienteNome(nomeCliente);
+			return VeiculoDtoParaEnviar.converter(veiculos);
+		}
+	}
+	
 	
 	
 	

@@ -28,8 +28,9 @@ public class ClienteServiceImpl implements ClienteService {
 	public Cliente findById(Long id) {
 		try {
 			clienteRepository.findById(id).get();
-		} catch(NoSuchElementException e) {
+		} catch(Exception e) {
 			e.getMessage();
+			System.out.println("Erro aqui");
 			return null;
 		}
 		return clienteRepository.findById(id).get();

@@ -1,4 +1,4 @@
-package com.everis.estacionamento.service;
+package com.everis.estacionamento.service.impl;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.everis.estacionamento.model.Veiculo;
 import com.everis.estacionamento.repository.VeiculoRepository;
+import com.everis.estacionamento.service.VeiculoService;
 
 @Service
 public class VeiculoServiceImpl implements VeiculoService {
@@ -22,7 +23,12 @@ public class VeiculoServiceImpl implements VeiculoService {
 
 	@Override
 	public Veiculo findById(Long id) {
-		return veiculoRepository.findById(id).get();
+		try {
+			return veiculoRepository.findById(id).get();
+		} catch (Exception e) {
+			System.out.println(e.getMessage() + e.getCause());
+		}
+		return null;
 	}
 
 	@Override
@@ -31,8 +37,13 @@ public class VeiculoServiceImpl implements VeiculoService {
 	}
 
 	@Override
-	public void deleteById(Veiculo veiculo) {
+	public void delete(Veiculo veiculo) {
 		veiculoRepository.delete(veiculo);		
+	}
+
+	@Override
+	public List<Veiculo> findByClienteNome(String nomeCliente) {
+		return veiculoRepository.findByClienteNome(nomeCliente);
 	}
 
 }

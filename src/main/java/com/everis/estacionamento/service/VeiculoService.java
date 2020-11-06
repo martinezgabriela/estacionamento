@@ -7,9 +7,10 @@ import com.everis.estacionamento.model.Veiculo;
 public interface VeiculoService {
 	
 	List<Veiculo> findAll();
+	List<Veiculo> findByClienteNome(String nomeCliente);
 	Veiculo findById(Long id);
-	//o método save é usado tanto para salvar quanto para fazer o update de um dado
 	Veiculo save(Veiculo veiculo);
-	void deleteById(Veiculo veiculo);
+	void delete(Veiculo veiculo);
+	
 
 }

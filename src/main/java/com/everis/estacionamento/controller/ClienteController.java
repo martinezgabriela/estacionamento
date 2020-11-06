@@ -80,6 +80,7 @@ public class ClienteController {
 	public ResponseEntity<?> remover(@PathVariable Long id){
 		try{
 			Cliente cliente = clienteService.findById(id);
+			System.out.println(cliente.getId());
 		} catch (EmptyResultDataAccessException | NoSuchElementException e){
 			System.out.println(e.getMessage());
 			return ResponseEntity.notFound().build();
