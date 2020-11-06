@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+
 @Entity
 @Table (name="TB_TICKET")
 public class Ticket {
@@ -24,26 +26,27 @@ public class Ticket {
 	
 	@ManyToOne
 	@JoinColumn (name="fk_id_Veiculo")
-	@NotBlank 
 	private Veiculo veiculo;
 	
-	@NotBlank
+	
 	private LocalDateTime entrada;
+		
+	private LocalDateTime saida;	
 	
-	@NotBlank
-	private LocalDateTime saida;
-	
-	@NotBlank
 	private double valorEstadia;
 	
 	@ManyToOne
 	@JoinColumn (name="fk_id_estacionamento")
-	@NotBlank 
 	private Estacionamento estacionamento;
 	
-	public Ticket() {
-		
-	}	
+	public Ticket() {		
+	}
+	
+	public Ticket(Veiculo veiculo, Estacionamento estacionamento) {
+		this.veiculo = veiculo;
+		this.estacionamento = estacionamento;
+		entrada = LocalDateTime.now();
+	}
 	
 
 	public Long getId() {

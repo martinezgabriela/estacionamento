@@ -10,4 +10,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
 	List<Ticket> findByVeiculoPlaca(String placa);
 
+	List<Ticket> findByEstacionamentoId(Long id);
+
 }

@@ -3,6 +3,7 @@ package com.everis.estacionamento.controller;
 import java.net.URI;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -59,14 +60,13 @@ public class VeiculoController {
 	public ResponseEntity<VeiculoDtoParaEnviar> atualizarVeiculo (@PathVariable Long id, 
 			@Valid @RequestBody VeiculoDtoParaReceber veiculoAtualizar){
 		
-		try {
-			Veiculo veiculo  = veiculoService.findById(id);
-		} catch (NoSuchElementException e) {
-			System.out.println(e.getMessage());
-			return ResponseEntity.notFound().build();
-		}
+		Optional<Veiculo> veiculo  = veiculoService.findById(id);
+		if(veiculo.isPresent()) {
 		Veiculo veiculoAtualizado = veiculoService.atualizar(id, veiculoAtualizar);
 		return ResponseEntity.ok(new VeiculoDtoParaEnviar(veiculoAtualizado));
+		} else {
+			throw new NoSuchElementException();
+		}
 	}
 	
 	@DeleteMapping("/{id}")

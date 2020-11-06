@@ -1,6 +1,8 @@
 package com.everis.estacionamento.service.impl;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +11,6 @@ import com.everis.estacionamento.controller.dto.VeiculoDtoParaReceber;
 import com.everis.estacionamento.model.Cliente;
 import com.everis.estacionamento.model.TipoVeiculo;
 import com.everis.estacionamento.model.Veiculo;
-import com.everis.estacionamento.repository.ClienteRepository;
 import com.everis.estacionamento.repository.VeiculoRepository;
 import com.everis.estacionamento.service.ClienteService;
 import com.everis.estacionamento.service.VeiculoService;
@@ -30,13 +31,13 @@ public class VeiculoServiceImpl implements VeiculoService {
 	}
 
 	@Override
-	public Veiculo findById(Long id) {
-		try {
-			return veiculoRepository.findById(id).get();
-		} catch (Exception e) {
-			System.out.println(e.getMessage() + e.getCause());
+	public Optional<Veiculo> findById(Long id) {
+		Optional<Veiculo> veiculo = veiculoRepository.findById(id);
+		if(veiculo.isPresent()) {
+			return Optional.of(veiculo.get());
+		} else {
+			throw new NoSuchElementException();
 		}
-		return null;
 	}
 
 	@Override

@@ -7,9 +7,20 @@ public class TicketDtoParaReceber {
 		
 	
 	@NotBlank 
-	private Long idVeiculo;
+	private String idVeiculo;
 
 	@NotBlank 
-	private Long idEstacionamento;
+	private String idEstacionamento;
+		
+
+	public String getIdVeiculo() {
+		return idVeiculo;
+	}
+
+	public String getIdEstacionamento() {
+		return idEstacionamento;
+	}
+	
+	
 
 }

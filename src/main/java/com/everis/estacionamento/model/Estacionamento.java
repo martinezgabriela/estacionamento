@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table (name="TB_ESTACIONAMENTO")
@@ -16,16 +17,21 @@ public class Estacionamento {
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@NotBlank
+	@NotNull
 	private double valorTarifa;
 	
-	@NotBlank
+	@NotNull
 	private int totalVagasEstacionamento;
 	
 
 	public Estacionamento() {		
 	}
 	
+	public Estacionamento(double valorTarifa, int totalVagasEstacionamento) {
+		this.valorTarifa = valorTarifa;
+		this.totalVagasEstacionamento = totalVagasEstacionamento;
+	}
+
 	public Long getId() {
 		return id;
 	}

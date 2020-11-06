@@ -3,6 +3,9 @@ package com.everis.estacionamento.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
+import com.everis.estacionamento.controller.dto.TicketDtoParaReceber;
 import com.everis.estacionamento.model.Ticket;
 
 public interface TicketService {
@@ -12,6 +15,8 @@ public interface TicketService {
 	Ticket save(Ticket ticket);
 	void deleteById(Long id);		
 	public List<Ticket> findByVeiculoPlaca(String placa);
+	Ticket save(TicketDtoParaReceber ticketDtoParaReceber);
+	List<Ticket> findByEstacionamentoId(Long id);
 	
 
 }
