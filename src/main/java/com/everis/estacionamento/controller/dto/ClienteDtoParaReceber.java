@@ -22,7 +22,6 @@ public class ClienteDtoParaReceber {
 	}
 
 
-
 	public String getNome() {
 		return nome;
 	}

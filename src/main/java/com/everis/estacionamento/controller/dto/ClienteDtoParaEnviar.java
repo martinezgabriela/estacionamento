@@ -1,5 +1,6 @@
 package com.everis.estacionamento.controller.dto;
-import org.springframework.data.domain.Page;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.everis.estacionamento.model.Cliente;
 
@@ -58,9 +59,10 @@ public class ClienteDtoParaEnviar {
 		this.email = email;
 	}
 	
-	public static Page <ClienteDtoParaEnviar> converter (Page<Cliente> clientes){
-		return clientes.map(ClienteDtoParaEnviar::new);
+	public static List <ClienteDtoParaEnviar> converter (List<Cliente> clientes){
+		return clientes.stream().map(ClienteDtoParaEnviar::new).collect(Collectors.toList());
 	}
+	
 	
 	
 	

@@ -1,16 +1,15 @@
 package com.everis.estacionamento.service.impl;
 
-import java.util.NoSuchElementException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.everis.estacionamento.controller.dto.ClienteDtoParaReceber;
+import com.everis.estacionamento.configuracao.validacao.NaoEPossivelDeleterClienteComVeiculoException;
 import com.everis.estacionamento.model.Cliente;
 import com.everis.estacionamento.repository.ClienteRepository;
 import com.everis.estacionamento.service.ClienteService;
+import com.everis.estacionamento.service.VeiculoService;
 
 
 @Service
@@ -19,9 +18,12 @@ public class ClienteServiceImpl implements ClienteService {
 	@Autowired
 	ClienteRepository clienteRepository;
 	
+	@Autowired
+	VeiculoService veiculoService;
+	
 	@Override
-	public Page<Cliente> findAll(Pageable paginacao) {
-		return clienteRepository.findAll(paginacao);
+	public List<Cliente> findAll() {
+		return clienteRepository.findAll();
 	}
 
 	@Override
@@ -29,9 +31,7 @@ public class ClienteServiceImpl implements ClienteService {
 		try {
 			clienteRepository.findById(id).get();
 		} catch(Exception e) {
-			e.getMessage();
-			System.out.println("Erro aqui");
-			return null;
+			e.getMessage();				
 		}
 		return clienteRepository.findById(id).get();
 	}
@@ -43,14 +43,14 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Override
 	public void deleteById(Long id) {		
-		clienteRepository.deleteById(id);		
+		if(veiculoService.findByClienteId(id)==null) {
+			clienteRepository.deleteById(id);		
+		} else {
+			throw new NaoEPossivelDeleterClienteComVeiculoException("Não é possível deletar cliente com veículo atrelado.");
+		}
 	}
 
-	@Override
-	public Page<Cliente> findByNome(String cliente, Pageable paginacao) {
-		Page<Cliente> clienteEncontrado = clienteRepository.findByNome(cliente, paginacao);
-		return clienteEncontrado;
-	}
+
 	
 	public Cliente atualizar(Long id, Cliente clienteAtualizar) {
 		Cliente clienteDB = clienteRepository.findById(id).get();
@@ -62,8 +62,8 @@ public class ClienteServiceImpl implements ClienteService {
 	}
 
 	@Override
-	public Cliente findByNome(String nome) {
-		Cliente clienteEncontrado = clienteRepository.findByNome(nome);
+	public List<Cliente> findByNome(String nome) {
+		List<Cliente> clienteEncontrado = clienteRepository.findByNome(nome);
 		return clienteEncontrado;
 	}
 

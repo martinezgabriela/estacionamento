@@ -48,21 +48,21 @@ class ClienteServiceImplTest {
 //	}
 	
 	
-	@Test
-	public void devePersistirCliente() {
-		Cliente cliente = new Cliente("Gabriela", "998189815", "gabrielamartinez.19@gmail.com"); 
-		clienteService.save(cliente);
-		Assertions.assertThat(clienteService.findByNome("Gabriela").getEmail()).isNotEqualTo("gabriela19@gmail.com");
-	}
-	
-	@Test
-	public void deveAtualizarEPersistirCliente() {
-		Cliente cliente = new Cliente("Gabriela", "998189815", "gabrielamartinez.19@gmail.com"); 
-		Cliente clienteSalvo = clienteService.save(cliente);
-		Cliente clienteDadosAtualizar = new Cliente("Gabriella", "998189816", "gabriellamartinez.19@gmail.com"); 
-		clienteService.atualizar(clienteSalvo.getId(), clienteDadosAtualizar);
-		Assertions.assertThat(clienteService.findByNome("Gabriella").getEmail()).isNotEqualTo("gabrielamartinez.19@gmail.com");
-	}
+//	@Test
+//	public void devePersistirCliente() {
+//		Cliente cliente = new Cliente("Gabriela", "998189815", "gabrielamartinez.19@gmail.com"); 
+//		clienteService.save(cliente);
+//		Assertions.assertThat(clienteService.findByNome("Gabriela").getEmail()).isNotEqualTo("gabriela19@gmail.com");
+//	}
+//	
+//	@Test
+//	public void deveAtualizarEPersistirCliente() {
+//		Cliente cliente = new Cliente("Gabriela", "998189815", "gabrielamartinez.19@gmail.com"); 
+//		Cliente clienteSalvo = clienteService.save(cliente);
+//		Cliente clienteDadosAtualizar = new Cliente("Gabriella", "998189816", "gabriellamartinez.19@gmail.com"); 
+//		clienteService.atualizar(clienteSalvo.getId(), clienteDadosAtualizar);
+//		Assertions.assertThat(clienteService.findByNome("Gabriella").getEmail()).isNotEqualTo("gabrielamartinez.19@gmail.com");
+//	}
 
 	
 	

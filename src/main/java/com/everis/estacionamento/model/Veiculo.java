@@ -1,7 +1,5 @@
 package com.everis.estacionamento.model;
 
-import java.util.Map;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -24,29 +21,26 @@ public class Veiculo {
 	private Long id;
 	
 	private String placa;	
-	@NotBlank
+	
 	private String marca;
-	@NotBlank
+	
 	private String cor;		
 	
 	@Enumerated(EnumType.STRING)
-	@NotBlank
 	private TipoVeiculo tipoVeiculo;		
 	
 	@JoinColumn(name="fk_id_cliente") 
 	@ManyToOne
-	@NotBlank
 	private Cliente cliente;
 	
 	public Veiculo() {
 		
 	}
 	
-	public Veiculo(String marca, String cor, String placa, TipoVeiculo tipoVeiculo, Cliente cliente) {
-		
-		this.marca = marca;
-		this.cor = cor;
+	public Veiculo(String placa, String marca, String cor, TipoVeiculo tipoVeiculo, Cliente cliente) {
 		this.placa = placa;
+		this.marca = marca;
+		this.cor = cor;		
 		this.tipoVeiculo = tipoVeiculo;
 		this.cliente = cliente;
 	}

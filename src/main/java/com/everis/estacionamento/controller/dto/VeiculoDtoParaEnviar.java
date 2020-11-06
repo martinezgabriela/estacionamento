@@ -1,12 +1,7 @@
 package com.everis.estacionamento.controller.dto;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.validation.constraints.NotBlank;
 
 import com.everis.estacionamento.model.Veiculo;
 
@@ -17,7 +12,7 @@ public class VeiculoDtoParaEnviar {
 	private String marca;	
 	private String cor;		
 	private String tipoVeiculo;	
-	private String nomeCliente;
+	private Long idCliente;
 	
 	public VeiculoDtoParaEnviar (Veiculo veiculo) {
 		this.id= veiculo.getId();
@@ -25,7 +20,11 @@ public class VeiculoDtoParaEnviar {
 		this.marca = veiculo.getMarca();
 		this.cor = veiculo.getCor();
 		this.tipoVeiculo = veiculo.getTipoVeiculo().toString();
-		this.nomeCliente = veiculo.getCliente().getNome();				
+		this.idCliente = veiculo.getId();				
+	}
+
+	public Long getIdCliente() {
+		return idCliente;
 	}
 
 	public Long getId() {
@@ -68,13 +67,6 @@ public class VeiculoDtoParaEnviar {
 		this.tipoVeiculo = tipoVeiculo;
 	}
 
-	public String getNomeCliente() {
-		return nomeCliente;
-	}
-
-	public void setNomeCliente(String nomeCliente) {
-		this.nomeCliente = nomeCliente;
-	}
 	
 	public static List <VeiculoDtoParaEnviar> converter(List <Veiculo> veiculos) {
 		return veiculos.stream().map(VeiculoDtoParaEnviar:: new).collect(Collectors.toList());

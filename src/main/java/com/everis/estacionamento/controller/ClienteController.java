@@ -1,6 +1,7 @@
 package com.everis.estacionamento.controller;
 
 import java.net.URI;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.transaction.Transactional;
@@ -8,10 +9,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-
+import com.everis.estacionamento.configuracao.validacao.NaoEPossivelDeleterClienteComVeiculoException;
 import com.everis.estacionamento.controller.dto.ClienteDtoParaEnviar;
 import com.everis.estacionamento.controller.dto.ClienteDtoParaReceber;
 import com.everis.estacionamento.model.Cliente;
@@ -49,14 +46,13 @@ public class ClienteController {
 
 	// com este método posso procurar por nome do cliente, se não passar o parâmetro ele buscará todos os clientes
 	@GetMapping  
-	public Page<ClienteDtoParaEnviar> listaCliente(@RequestParam(required = false) String nomeCliente,
-			@PageableDefault(sort = "nome", direction = Direction.ASC, page = 0, size = 15) Pageable paginacao) {
+	public List<ClienteDtoParaEnviar> listaCliente(@RequestParam(required = false) String nomeCliente) {
 		if (nomeCliente == null) {
-			Page<Cliente> clientes = clienteService.findAll(paginacao);
+			List<Cliente> clientes = clienteService.findAll();
 			return ClienteDtoParaEnviar.converter(clientes);
 		} else {
-			Page<Cliente> clientes = clienteService.findByNome(nomeCliente, paginacao);
-			return ClienteDtoParaEnviar.converter(clientes);
+			List<Cliente> cliente = clienteService.findByNome(nomeCliente);
+			return ClienteDtoParaEnviar.converter(cliente);
 		}
 	}
 
@@ -76,16 +72,13 @@ public class ClienteController {
 	
 	
 	@DeleteMapping ("/{id}")
-	@Transactional
 	public ResponseEntity<?> remover(@PathVariable Long id){
 		try{
-			Cliente cliente = clienteService.findById(id);
-			System.out.println(cliente.getId());
-		} catch (EmptyResultDataAccessException | NoSuchElementException e){
+			clienteService.deleteById(id);
+		} catch (EmptyResultDataAccessException | NoSuchElementException | NaoEPossivelDeleterClienteComVeiculoException e){
 			System.out.println(e.getMessage());
 			return ResponseEntity.notFound().build();
-		}
-		clienteService.deleteById(id);
+		}		
 		return ResponseEntity.ok().build();
 		
 	}
