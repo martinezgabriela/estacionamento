@@ -1,6 +1,7 @@
 package com.everis.estacionamento.service.impl;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class EstacionamentoServiceImpl implements EstacionamentoService{
 		if(ticketService.findByEstacionamentoId(id)==null) {
 			estacionamentoRepository.deleteById(id);		
 		} else {
-			throw new NaoEPossivelDeleterClienteComVeiculoException("Não é possível deletar cliente com veículo atrelado.");
+			throw new NaoEPossivelDeleterClienteComVeiculoException("Não é possível deletar estacionamento com ticket atrelado.");
 		}		
 	}
 	
@@ -53,6 +54,21 @@ public class EstacionamentoServiceImpl implements EstacionamentoService{
 	@Override
 	public List<Estacionamento> findAll() {
 		return estacionamentoRepository.findAll();
+	}
+
+
+
+	@Override
+	public Estacionamento atualizar(Long id, EstacionamentoDtoParaReceber estacionamentoDto) {
+		Optional<Estacionamento> estacionamento = estacionamentoRepository.findById(id);
+		if(estacionamento.isPresent()){
+			Estacionamento estacionamentoAtualizar = estacionamento.get();
+			estacionamentoAtualizar.setTotalVagasEstacionamento(estacionamentoDto.getTotalVagasEstacionamento());
+			estacionamentoAtualizar.setValorTarifa(estacionamentoDto.getValorTarifa());
+			return estacionamentoRepository.save(estacionamentoAtualizar);
+		} else {
+			throw new NoSuchElementException("Elemento não encontrado");
+		}
 	}
 	
 }

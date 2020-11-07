@@ -1,8 +1,10 @@
 package com.everis.estacionamento.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,11 +65,13 @@ public class VeiculoServiceImpl implements VeiculoService {
 	@Override
 	public Veiculo save(Veiculo veiculo) {
 		return veiculoRepository.save(veiculo);
-	}
+	}	
+	
 
 	@Override
 	public List<Veiculo> findByClienteId(Long idCliente) {
 		return veiculoRepository.findByClienteId(idCliente);
+		
 	}
 
 	@Override

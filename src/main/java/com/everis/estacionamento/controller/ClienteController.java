@@ -71,16 +71,19 @@ public class ClienteController {
 	}
 	
 	
-	@DeleteMapping ("/{id}")
-	public ResponseEntity<?> remover(@PathVariable Long id){
-		try{
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> remover(@PathVariable Long id) {
+		try {
 			clienteService.deleteById(id);
-		} catch (EmptyResultDataAccessException | NoSuchElementException | NaoEPossivelDeleterClienteComVeiculoException e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.notFound().build();
-		}		
-		return ResponseEntity.ok().build();
+			return ResponseEntity.ok().build();
+		} catch (NaoEPossivelDeleterClienteComVeiculoException e) {
+			e.getMessage();
+			return ResponseEntity.badRequest().build();
+		}
+
+	}		
+		
 		
 	}
 
-}
+
