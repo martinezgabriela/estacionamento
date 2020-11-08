@@ -15,53 +15,45 @@ import com.everis.estacionamento.service.EstacionamentoService;
 import com.everis.estacionamento.service.TicketService;
 
 @Service
-public class EstacionamentoServiceImpl implements EstacionamentoService{
+public class EstacionamentoServiceImpl implements EstacionamentoService {
 
-	
 	@Autowired
 	EstacionamentoRepository estacionamentoRepository;
-	
+
 	@Autowired
 	TicketService ticketService;
-	
-
 
 	@Override
 	public Optional<Estacionamento> findById(Long id) {
 		return estacionamentoRepository.findById(id);
 	}
 
-
-
 	@Override
 	public void deleteById(Long id) {
-		if(ticketService.findByEstacionamentoId(id)==null) {
-			estacionamentoRepository.deleteById(id);		
+		if (ticketService.findByEstacionamentoId(id) == null) {
+			estacionamentoRepository.deleteById(id);
 		} else {
-			throw new NaoEPossivelDeleterClienteComVeiculoException("Não é possível deletar estacionamento com ticket atrelado.");
-		}		
+			throw new NaoEPossivelDeleterClienteComVeiculoException(
+					"Não é possível deletar estacionamento com ticket atrelado.");
+		}
 	}
-	
 
 	@Override
 	public Estacionamento save(EstacionamentoDtoParaReceber estacionamento) {
-		Estacionamento estacionamentoSalvar = new Estacionamento(estacionamento.getValorTarifa(), estacionamento.getTotalVagasEstacionamento());
+		Estacionamento estacionamentoSalvar = new Estacionamento(estacionamento.getValorTarifa(),
+				estacionamento.getTotalVagasEstacionamento());
 		return estacionamentoRepository.save(estacionamentoSalvar);
 	}
-
-
 
 	@Override
 	public List<Estacionamento> findAll() {
 		return estacionamentoRepository.findAll();
 	}
 
-
-
 	@Override
 	public Estacionamento atualizar(Long id, EstacionamentoDtoParaReceber estacionamentoDto) {
 		Optional<Estacionamento> estacionamento = estacionamentoRepository.findById(id);
-		if(estacionamento.isPresent()){
+		if (estacionamento.isPresent()) {
 			Estacionamento estacionamentoAtualizar = estacionamento.get();
 			estacionamentoAtualizar.setTotalVagasEstacionamento(estacionamentoDto.getTotalVagasEstacionamento());
 			estacionamentoAtualizar.setValorTarifa(estacionamentoDto.getValorTarifa());
@@ -70,18 +62,16 @@ public class EstacionamentoServiceImpl implements EstacionamentoService{
 			throw new NoSuchElementException("Elemento não encontrado");
 		}
 	}
-	
+
 	public boolean estacionamentEstaCheio(Estacionamento estac) {
 		Optional<Estacionamento> estacOptional = estacionamentoRepository.findById(estac.getId());
-		if(!estacOptional.isPresent()) {
+		if (!estacOptional.isPresent()) {
 			throw new NoSuchElementException();
 		} else {
 			Estacionamento estacionamento = estacOptional.get();
-			return ticketService.quantidadeDeVagasDisponiveis(estacionamento)==0;
-			
+			return ticketService.quantidadeDeVagasDisponiveis(estacionamento) == 0;
+
 		}
 	}
-	
-	
-	
+
 }

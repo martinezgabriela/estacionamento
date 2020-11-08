@@ -4,37 +4,23 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import com.everis.estacionamento.model.Estacionamento;
 import com.everis.estacionamento.model.Ticket;
-import com.everis.estacionamento.model.Veiculo;
 
 public class TicketDtoParaEnviar {
-	
-	
-	
-	
+
 	private Long id;
 
 	private String veiculo;
-	
-	private LocalDateTime entrada;
-		
-	private LocalDateTime saida;	
-	
-	private double valorEstadia;
-	
-	private Long estacionamento;
-	
-	
-	
 
-	public TicketDtoParaEnviar(Ticket ticket) {		
+	private LocalDateTime entrada;
+
+	private LocalDateTime saida;
+
+	private double valorEstadia;
+
+	private Long estacionamento;
+
+	public TicketDtoParaEnviar(Ticket ticket) {
 		this.id = ticket.getId();
 		this.veiculo = ticket.getVeiculo().getPlaca();
 		this.entrada = ticket.getEntrada();
@@ -66,11 +52,9 @@ public class TicketDtoParaEnviar {
 	public Long getEstacionamento() {
 		return estacionamento;
 	}
-	
-	public static List<TicketDtoParaEnviar> converter (List<Ticket> tickets){
+
+	public static List<TicketDtoParaEnviar> converter(List<Ticket> tickets) {
 		return tickets.stream().map(TicketDtoParaEnviar::new).collect(Collectors.toList());
 	}
-	
-	
 
 }

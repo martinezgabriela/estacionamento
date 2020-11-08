@@ -11,11 +11,10 @@ public class TicketDtoParaReceber {
 
 	@NotBlank 
 	private String idEstacionamento;	
-	
-		
+			
 
-	public TicketDtoParaReceber(@NotBlank String idVeiculo, @NotBlank String idEstacionamento) {
-		super();
+
+	public TicketDtoParaReceber(String idVeiculo, String idEstacionamento) {		
 		this.idVeiculo = idVeiculo;
 		this.idEstacionamento = idEstacionamento;
 	}

@@ -1,6 +1,7 @@
 package com.everis.estacionamento.service.impl;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -100,28 +101,22 @@ public class TicketServiceImpl implements TicketService {
 		return ticketRepository.findByEstacionamentoId(id);
 	}
 
-	public Double calculaDuracaoEstadia(Ticket ticket) {
+	public long calculaDuracaoEstadia(Ticket ticket) {
 		LocalDateTime entrada = ticket.getEntrada();
 		LocalDateTime saida = ticket.getSaida();
-		LocalDateTime from = LocalDateTime.of(entrada.getYear(), entrada.getMonth(), entrada.getDayOfMonth(),
-				entrada.getHour(), entrada.getMinute());
-		LocalDateTime to = LocalDateTime.of(saida.getYear(), saida.getMonth(), saida.getDayOfMonth(), saida.getHour(),
-				saida.getMinute());
-		double minutes = ChronoUnit.MINUTES.between(from, to);
-		return minutes;
-
+		return entrada.until(saida, ChronoUnit.MINUTES);
 	}
 
-	public Double calculaValorEstadia(double duracao, Ticket ticket) {
+	public Double calculaValorEstadia(long duracao, Ticket ticket) {
 		double valorTarifaPor60Min = ticket.getEstacionamento().getValorTarifa();
-		double valorEstadia = (valorTarifaPor60Min * duracao) / 60;
+		double valorEstadia = Math.round((valorTarifaPor60Min * duracao) / 60);
 		return valorEstadia;
 	}
 
 	@Override
 	public Ticket registraSaida(Ticket ticketAtualizar) {
-		ticketAtualizar.setSaida(LocalDateTime.now());
-		double duracaoEstadia = calculaDuracaoEstadia(ticketAtualizar);
+		ticketAtualizar.setSaida(LocalDateTime.now(ZoneOffset.UTC));
+		long duracaoEstadia = calculaDuracaoEstadia(ticketAtualizar);
 		double valorEstadia = calculaValorEstadia(duracaoEstadia, ticketAtualizar);
 		ticketAtualizar.setValorEstadia(valorEstadia);
 		return ticketRepository.save(ticketAtualizar);

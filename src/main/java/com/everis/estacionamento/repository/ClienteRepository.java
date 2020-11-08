@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.everis.estacionamento.model.Cliente;
-import com.everis.estacionamento.model.Veiculo;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long>{
 	
