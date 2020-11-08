@@ -45,13 +45,23 @@ class TicketServiceImplTest {
 	private TicketRepository ticketRepository;
 	
 	@Test
-	public void testacalculoValorEstadia() {
+	public void testacalculoValorEstadiaConsiderandoQueUmaEstadiaDe60MinutosCustaOValorDaTarifa() {
 		Estacionamento estacionamento = new Estacionamento(5, 30);
 		Cliente cliente = new Cliente ("Gabriela", "999889988", "gab@gmail.com");
 		Veiculo veiculo = new Veiculo ("MGM0009", "fiat", "azul", TipoVeiculo.CARRO, cliente);
 		Ticket ticket = new Ticket (veiculo, estacionamento);		
 		Assertions.assertThat(ticketService.calculaValorEstadia(60, ticket)).isEqualTo(estacionamento.getValorTarifa());
 	}
+	
+	@Test
+	public void testacalculoValorEstadiaComInformacoesErradas() {
+		Estacionamento estacionamento = new Estacionamento(5, 30);
+		Cliente cliente = new Cliente ("Gabriela", "999889988", "gab@gmail.com");
+		Veiculo veiculo = new Veiculo ("MGM0009", "fiat", "azul", TipoVeiculo.CARRO, cliente);
+		Ticket ticket = new Ticket (veiculo, estacionamento);		
+		Assertions.assertThat(ticketService.calculaValorEstadia(65, ticket)).isNotEqualTo(estacionamento.getValorTarifa());
+	}
+	
 	
 	
 	

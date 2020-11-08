@@ -2,9 +2,12 @@ package com.everis.estacionamento.service.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -46,6 +49,11 @@ class EstacionamentoServiceImplTest {
 	@MockBean
 	private EstacionamentoRepository estacionamentoRepository;
 	
+	@MockBean
+	private TicketRepository ticketRepository;
+	
+	
+
 	
 	@Test
 	public void testaSeEstacionamentoEstaCheioDeveRetornarFalsePoisNaoEsta() {
@@ -53,10 +61,15 @@ class EstacionamentoServiceImplTest {
 		Cliente cliente = new Cliente ("Gabriela", "999889988", "gab@gmail.com");
 		Veiculo veiculo = new Veiculo ("MGM0009", "fiat", "azul", TipoVeiculo.CARRO, cliente);
 		Ticket ticket = new Ticket (veiculo, estacionamento);
-		Mockito.when(estacionamentoRepository.findById(estacionamento.getId())).thenReturn(Optional.of(new Estacionamento (5, 30)));
+		Mockito.when(estacionamentoRepository.findById(estacionamento.getId())).thenReturn(Optional.of(estacionamento));
+		List<Ticket> ticketsSemSaidaParaRetornar = new ArrayList<Ticket>();
+		ticketsSemSaidaParaRetornar.add(ticket);
+		Mockito.when(ticketRepository.findBySaidaAndEstacionamentoId(null, estacionamento.getId())).thenReturn(ticketsSemSaidaParaRetornar);
 		boolean estaCheio = estacionamentoService.estacionamentEstaCheio(estacionamento);
 		Assertions.assertThat(estaCheio).isEqualTo(false);
 	}
+	
+	
 	
 	@Test
 	public void testaSeEstacionamentoEstaCheioDeveRetornarTrue() {
@@ -64,7 +77,10 @@ class EstacionamentoServiceImplTest {
 		Cliente cliente = new Cliente ("Gabriela", "999889988", "gab@gmail.com");
 		Veiculo veiculo = new Veiculo ("MGM0009", "fiat", "azul", TipoVeiculo.CARRO, cliente);
 		Ticket ticket = new Ticket (veiculo, estacionamento);
-		Mockito.when(estacionamentoRepository.findById(estacionamento.getId())).thenReturn(Optional.of(new Estacionamento (5, 1)));
+		Mockito.when(estacionamentoRepository.findById(estacionamento.getId())).thenReturn(Optional.of(estacionamento));
+		List<Ticket> ticketsSemSaidaParaRetornar = new ArrayList<Ticket>();
+		ticketsSemSaidaParaRetornar.add(ticket);
+		Mockito.when(ticketRepository.findBySaidaAndEstacionamentoId(null, estacionamento.getId())).thenReturn(ticketsSemSaidaParaRetornar);
 		boolean estaCheio = estacionamentoService.estacionamentEstaCheio(estacionamento);
 		Assertions.assertThat(estaCheio).isEqualTo(true);
 	}
