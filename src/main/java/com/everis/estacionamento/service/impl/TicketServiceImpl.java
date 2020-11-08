@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.everis.estacionamento.configuracao.exceptions.EstacionamentoCheioException;
+import com.everis.estacionamento.configuracao.exceptions.VeiculoConstaComoEstacionadoException;
 import com.everis.estacionamento.controller.dto.TicketDtoParaReceber;
 import com.everis.estacionamento.model.Estacionamento;
 import com.everis.estacionamento.model.Ticket;
@@ -57,25 +58,36 @@ public class TicketServiceImpl implements TicketService {
 		return ticketRepository.findByVeiculoPlaca(placa);
 	}
 
-	public boolean verificaSePodeCriarTicket(TicketDtoParaReceber ticketDtoParaReceber) {
+	public Optional<Estacionamento> verificaSePodeCriarTicket(TicketDtoParaReceber ticketDtoParaReceber) {
 		Optional<Estacionamento> estacionamentoOptional = estacionamentoService
 				.findById(Long.parseLong(ticketDtoParaReceber.getIdEstacionamento()));
 		if (estacionamentoOptional.isPresent()) {
-			return quantidadeDeVagasDisponiveis(estacionamentoOptional.get()) > 0;
+			if(quantidadeDeVagasDisponiveis(estacionamentoOptional.get()) > 0) {
+				return estacionamentoOptional;
+			}
+			return null;
 		} else {
 			throw new NoSuchElementException("Estacionamento não encontrado.");
 		}
 	}
+	
+	
 
 	@Override
 	public Ticket save(TicketDtoParaReceber ticketDtoParaReceber) {
-		if (verificaSePodeCriarTicket(ticketDtoParaReceber)) {
-			Optional<Estacionamento> estacionamento = estacionamentoService
-					.findById(Long.parseLong(ticketDtoParaReceber.getIdEstacionamento()));
+		Optional<Estacionamento> estacionamento = verificaSePodeCriarTicket(ticketDtoParaReceber);
+		if (estacionamento != null) {
 			Optional<Veiculo> veiculo = veiculoService.findById(Long.parseLong(ticketDtoParaReceber.getIdVeiculo()));
 			if (estacionamento.isPresent() && veiculo.isPresent()) {
-				Ticket ticket = new Ticket(veiculo.get(), estacionamento.get());
-				return ticketRepository.save(ticket);
+				
+				if(verificaSeOVeiculoTemTicketEmAbertoNesteEstacionamento(veiculo.get().getId(), estacionamento.get().getId()) == false) {
+					Ticket ticket = new Ticket(veiculo.get(), estacionamento.get());
+					return ticketRepository.save(ticket);
+				}else {
+					//lançar um erro dizendo que o veículo entrou mas não saiu
+					throw new VeiculoConstaComoEstacionadoException("Este veículo consta com estacionado no momento.");
+				}
+				
 			} else {
 				throw new NoSuchElementException();
 			}
@@ -128,6 +140,19 @@ public class TicketServiceImpl implements TicketService {
 	@Override
 	public List<Ticket> findBySaidaAndEstacionamentoId(LocalDateTime saida, Long idEstacionamento) {
 		return ticketRepository.findBySaidaAndEstacionamentoId(saida, idEstacionamento);
+	}
+	
+	public boolean verificaSeOVeiculoTemTicketEmAbertoNesteEstacionamento(Long idVeiculo, Long idEstacionamento) {
+		List<Ticket> ticketsSemSaidaDesteVeiculoNesteEstacionamento = ticketRepository.
+				findBySaidaAndVeiculoIdAndEstacionamentoId(null, idVeiculo, idEstacionamento);
+		return ticketsSemSaidaDesteVeiculoNesteEstacionamento.size()>0;
+	}
+	
+ 
+
+	@Override
+	public List<Ticket> findBySaidaAndVeiculoIdAndEstacionamentoId(LocalDateTime saida, Long idVeiculo, Long idEstacionamento) {
+		return ticketRepository.findBySaidaAndVeiculoIdAndEstacionamentoId(saida, idVeiculo, idEstacionamento);
 	}
 
 }

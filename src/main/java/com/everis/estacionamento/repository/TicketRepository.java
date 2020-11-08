@@ -15,4 +15,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 	
 	List<Ticket> findBySaidaAndEstacionamentoId(LocalDateTime saida, Long idEstacionamento);
 
+	List<Ticket> findBySaidaAndVeiculoIdAndEstacionamentoId(LocalDateTime saida, Long idVeiculo, Long idEstacionamento);
+
 }

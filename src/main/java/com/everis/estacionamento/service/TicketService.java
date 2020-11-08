@@ -21,4 +21,5 @@ public interface TicketService {
 	Double calculaValorEstadia(double duracao, Ticket ticket);
 	List<Ticket> findBySaidaAndEstacionamentoId(LocalDateTime saida, Long idEstacionamento);
 	int quantidadeDeVagasDisponiveis(Estacionamento estacionamento);
+	List<Ticket> findBySaidaAndVeiculoIdAndEstacionamentoId(LocalDateTime saida, Long idVeiculo, Long idEstacionamento);
 }

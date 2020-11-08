@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.everis.estacionamento.configuracao.exceptions.EstacionamentoCheioException;
+import com.everis.estacionamento.configuracao.exceptions.VeiculoConstaComoEstacionadoException;
 import com.everis.estacionamento.controller.dto.TicketDtoParaEnviar;
 import com.everis.estacionamento.controller.dto.TicketDtoParaReceber;
 import com.everis.estacionamento.model.Ticket;
@@ -46,7 +47,7 @@ public class TicketController {
 			return ResponseEntity.created(uri).body(ticket);
 		} catch (NoSuchElementException e) {
 			return ResponseEntity.notFound().build();
-		} catch (EstacionamentoCheioException e) {
+		} catch (EstacionamentoCheioException | VeiculoConstaComoEstacionadoException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
