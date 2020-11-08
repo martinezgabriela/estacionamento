@@ -1,7 +1,6 @@
 package com.everis.estacionamento.controller;
 
 import java.net.URI;
-
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +23,6 @@ import com.everis.estacionamento.configuracao.security.TokenService;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-//@WebMvcTest(Controller.class)
 @ActiveProfiles("test") 
 public class ClienteControllerTest {
 	
@@ -33,9 +31,13 @@ public class ClienteControllerTest {
 	
 	@Autowired
 	private AuthenticationManager authManager;
+	
 	@Autowired
 	private TokenService tokenService;
 	
+
+	
+		
 	@Before
 	public String gerarToken() {
 
@@ -44,7 +46,8 @@ public class ClienteControllerTest {
 		Authentication authentication = authManager.authenticate(autenticar);
 		String token = tokenService.gerarToken(authentication);
 		return token;
-	}
+	}	
+
 
 	@Test
 	public void deveCadastrarCliente() throws Exception {
@@ -55,11 +58,11 @@ public class ClienteControllerTest {
 		.andExpect(MockMvcResultMatchers.status().is(201));
 	}
 	
+	
 	@Test
 	public void deveAtualizarCliente() throws Exception {
-		URI uri = new URI ("/clientes/1");
-		
-		String json = "{\"nome\":\"gabriella\", \"telefone\":\"1111111\", \"email\":\"gabriela@martinez.com\"}";
+		URI uri = new URI ("/clientes/46");		
+		String json = "{\"nome\":\"teste2\", \"telefone\":\"1111111\", \"email\":\"gabriela@martinez.com\"}";
 		mvc.perform(MockMvcRequestBuilders.put(uri).content(json).contentType(MediaType.APPLICATION_JSON)
 				.header("authorization", "Bearer " + gerarToken()))
 				.andExpect(MockMvcResultMatchers.status().is(200));	
@@ -76,7 +79,7 @@ public class ClienteControllerTest {
 	
 	@Test
 	public void deveRemoverClientePoisClienteNaoPossuiVeiculo() throws Exception {
-		URI uri = new URI ("/clientes/27");
+		URI uri = new URI ("/clientes/50");
 		mvc.perform(MockMvcRequestBuilders.delete(uri)
 		.header("authorization", "Bearer " + gerarToken()))
 		.andExpect(MockMvcResultMatchers.status().is(200));

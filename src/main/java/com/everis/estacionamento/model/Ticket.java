@@ -1,8 +1,6 @@
 package com.everis.estacionamento.model;
 
-
 import java.time.LocalDateTime;
-
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,42 +10,38 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
 @Entity
-@Table (name="TB_TICKET")
+@Table(name = "TB_TICKET")
 public class Ticket {
 
-
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@ManyToOne
-	@JoinColumn (name="fk_id_Veiculo")
-	private Veiculo veiculo;	
-	
+	@JoinColumn(name = "fk_id_Veiculo")
+	private Veiculo veiculo;
+
 	private LocalDateTime entrada;
-		
-	private LocalDateTime saida;	
-	
+
+	private LocalDateTime saida;
+
 	private double valorEstadia;
-	
+
 	@ManyToOne
-	@JoinColumn (name="fk_id_estacionamento")
+	@JoinColumn(name = "fk_id_estacionamento")
 	private Estacionamento estacionamento;
-	
-	public Ticket() {		
+
+	public Ticket() {
 	}
-	
+
 	public Ticket(Veiculo veiculo, Estacionamento estacionamento) {
 		this.veiculo = veiculo;
 		this.estacionamento = estacionamento;
 		entrada = LocalDateTime.now();
 	}
-	
+
 	public Veiculo getVeiculo() {
 		return veiculo;
 	}
@@ -67,7 +61,6 @@ public class Ticket {
 	public Estacionamento getEstacionamento() {
 		return estacionamento;
 	}
-	
 
 	public Long getId() {
 		return id;
@@ -92,14 +85,5 @@ public class Ticket {
 	public void setEstacionamento(Estacionamento estacionamento) {
 		this.estacionamento = estacionamento;
 	}
-
-
-	
-	
-
-
-	
-	
-	
 
 }

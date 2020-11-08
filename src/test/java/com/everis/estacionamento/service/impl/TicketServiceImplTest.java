@@ -1,7 +1,5 @@
 package com.everis.estacionamento.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -17,9 +15,7 @@ import com.everis.estacionamento.model.Estacionamento;
 import com.everis.estacionamento.model.Ticket;
 import com.everis.estacionamento.model.TipoVeiculo;
 import com.everis.estacionamento.model.Veiculo;
-import com.everis.estacionamento.repository.ClienteRepository;
 import com.everis.estacionamento.repository.TicketRepository;
-import com.everis.estacionamento.service.ClienteService;
 import com.everis.estacionamento.service.TicketService;
 
 
@@ -62,17 +58,6 @@ class TicketServiceImplTest {
 		Assertions.assertThat(ticketService.calculaValorEstadia(65, ticket)).isNotEqualTo(estacionamento.getValorTarifa());
 	}
 	
-	
-	
-	
-//	public void testaCriacaoTicketComEstacionamentoLotado() {
-//		Estacionamento estacionamento = new Estacionamento(5, 1);
-//		Cliente cliente = new Cliente ("Gabriela", "999889988", "gab@gmail.com");
-//		Veiculo veiculo = new Veiculo ("MGM0009", "fiat", "azul", TipoVeiculo.CARRO, cliente);
-//		 
-//		Assertions.assertThat(ticketService.save(new TicketDtoParaReceber (1, 1)))
-//		
-//	}
 	
 	
 	

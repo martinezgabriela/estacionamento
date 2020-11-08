@@ -11,6 +11,12 @@ public class EstacionamentoDtoParaReceber {
 	private int totalVagasEstacionamento;
 	
 	
+	
+
+	public EstacionamentoDtoParaReceber(@NotNull double valorTarifa, @NotNull int totalVagasEstacionamento) {
+		this.valorTarifa = valorTarifa;
+		this.totalVagasEstacionamento = totalVagasEstacionamento;
+	}
 
 	public double getValorTarifa() {
 		return valorTarifa;

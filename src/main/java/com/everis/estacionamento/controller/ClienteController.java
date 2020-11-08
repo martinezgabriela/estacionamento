@@ -44,8 +44,9 @@ public class ClienteController {
 		return ResponseEntity.created(uri).body(cliente);
 	}
 
-	// com este método posso procurar por nome do cliente, se não passar o parâmetro ele buscará todos os clientes
-	@GetMapping  
+	// com este método posso procurar por nome do cliente, se não passar o parâmetro
+	// ele buscará todos os clientes
+	@GetMapping
 	public List<ClienteDtoParaEnviar> listaCliente(@RequestParam(required = false) String nomeCliente) {
 		if (nomeCliente == null) {
 			List<Cliente> clientes = clienteService.findAll();
@@ -59,31 +60,23 @@ public class ClienteController {
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<ClienteDtoParaEnviar> atualizarCliente(@PathVariable Long id,
-			@Valid @RequestBody ClienteDtoParaReceber clienteAtualizar) {				
+			@Valid @RequestBody ClienteDtoParaReceber clienteAtualizar) {
 		try {
-			Cliente cliente = clienteService.findById(id);			
+			Cliente clienteAtualizado = clienteService.atualizar(id, clienteAtualizar.converter());
+			return ResponseEntity.ok(new ClienteDtoParaEnviar(clienteAtualizado));
 		} catch (NoSuchElementException e) {
-			System.out.println(e.getMessage());
 			return ResponseEntity.notFound().build();
 		}
-		Cliente clienteAtualizado =  clienteService.atualizar(id, clienteAtualizar.converter());
-		return ResponseEntity.ok(new ClienteDtoParaEnviar(clienteAtualizado));
+
 	}
-	
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> remover(@PathVariable Long id) {
 		try {
 			clienteService.deleteById(id);
 			return ResponseEntity.ok().build();
 		} catch (NaoEPossivelDeleterClienteComVeiculoException | EmptyResultDataAccessException e) {
-			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
-
-	}		
-		
-		
 	}
-
-
+}

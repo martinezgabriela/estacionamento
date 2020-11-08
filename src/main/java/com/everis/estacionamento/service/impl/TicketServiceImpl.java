@@ -19,8 +19,6 @@ import com.everis.estacionamento.service.EstacionamentoService;
 import com.everis.estacionamento.service.TicketService;
 import com.everis.estacionamento.service.VeiculoService;
 
-import ch.qos.logback.core.util.Duration;
-
 @Service
 public class TicketServiceImpl implements TicketService {
 

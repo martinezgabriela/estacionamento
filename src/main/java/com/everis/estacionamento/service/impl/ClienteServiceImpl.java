@@ -1,12 +1,10 @@
 package com.everis.estacionamento.service.impl;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import com.everis.estacionamento.configuracao.exceptions.ClienteNaoEncontradoException;
 import com.everis.estacionamento.configuracao.exceptions.NaoEPossivelDeleterClienteComVeiculoException;
 import com.everis.estacionamento.model.Cliente;
 import com.everis.estacionamento.model.Veiculo;
@@ -22,7 +20,6 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Autowired
 	private VeiculoService veiculoService;
-	
 
 	@Override
 	public List<Cliente> findAll() {
@@ -31,30 +28,29 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Override
 	public Cliente findById(Long id) {
+		Cliente clienteEncontrado = new Cliente();
 		try {
-			clienteRepository.findById(id).get();
-		} catch (Exception e) {
-			e.getMessage();
+			clienteEncontrado = clienteRepository.findById(id).get();
+		} catch(Exception e) {
+			throw new ClienteNaoEncontradoException("Erro ao procurar cliente.");
 		}
-		return clienteRepository.findById(id).get();
+		return clienteEncontrado;
 	}
 
 	@Override
 	public Cliente save(Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
-	
-
 
 	@Override
 	public void deleteById(Long id) {
-		List <Veiculo> veiculosCliente = veiculoService.findByClienteId(id);
-		if(veiculosCliente.isEmpty()) {
+		List<Veiculo> veiculosCliente = veiculoService.findByClienteId(id);
+		if (veiculosCliente.isEmpty()) {
 			clienteRepository.deleteById(id);
 		} else {
 			throw new NaoEPossivelDeleterClienteComVeiculoException("Esse cliente possui veículos cadastrados.");
 		}
-	
+
 	}
 
 	public Cliente atualizar(Long id, Cliente clienteAtualizar) {

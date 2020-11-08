@@ -1,13 +1,10 @@
 package com.everis.estacionamento.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -26,7 +23,6 @@ import com.everis.estacionamento.model.Veiculo;
 import com.everis.estacionamento.repository.EstacionamentoRepository;
 import com.everis.estacionamento.repository.TicketRepository;
 import com.everis.estacionamento.service.EstacionamentoService;
-import com.everis.estacionamento.service.TicketService;
 
 
 @RunWith(SpringRunner.class)

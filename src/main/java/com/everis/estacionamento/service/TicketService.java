@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import com.everis.estacionamento.controller.dto.TicketDtoParaReceber;
 import com.everis.estacionamento.model.Estacionamento;
 import com.everis.estacionamento.model.Ticket;

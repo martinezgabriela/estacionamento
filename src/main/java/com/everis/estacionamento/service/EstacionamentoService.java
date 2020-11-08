@@ -3,8 +3,6 @@ package com.everis.estacionamento.service;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import com.everis.estacionamento.controller.dto.EstacionamentoDtoParaReceber;
 import com.everis.estacionamento.model.Estacionamento;
 
