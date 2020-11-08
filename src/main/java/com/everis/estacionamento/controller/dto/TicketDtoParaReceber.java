@@ -10,8 +10,15 @@ public class TicketDtoParaReceber {
 	private String idVeiculo;
 
 	@NotBlank 
-	private String idEstacionamento;
+	private String idEstacionamento;	
+	
 		
+
+	public TicketDtoParaReceber(@NotBlank String idVeiculo, @NotBlank String idEstacionamento) {
+		super();
+		this.idVeiculo = idVeiculo;
+		this.idEstacionamento = idEstacionamento;
+	}
 
 	public String getIdVeiculo() {
 		return idVeiculo;

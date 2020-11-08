@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.everis.estacionamento.configuracao.validacao.NaoEPossivelDeleterClienteComVeiculoException;
+import com.everis.estacionamento.configuracao.exceptions.NaoEPossivelDeleterClienteComVeiculoException;
 import com.everis.estacionamento.controller.dto.EstacionamentoDtoParaReceber;
 import com.everis.estacionamento.model.Estacionamento;
 import com.everis.estacionamento.service.EstacionamentoService;
@@ -42,13 +42,12 @@ public class EstacionamentoController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> remover(@PathVariable Long id) {
+	public ResponseEntity<Object> remover(@PathVariable Long id) {
 		try {
 			estacionamentoService.deleteById(id);
 		} catch (EmptyResultDataAccessException | NoSuchElementException
 				| NaoEPossivelDeleterClienteComVeiculoException e) {
-			System.out.println(e.getMessage());
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 		return ResponseEntity.ok().build();
 

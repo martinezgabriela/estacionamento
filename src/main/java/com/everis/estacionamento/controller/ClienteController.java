@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.everis.estacionamento.configuracao.validacao.NaoEPossivelDeleterClienteComVeiculoException;
+import com.everis.estacionamento.configuracao.exceptions.NaoEPossivelDeleterClienteComVeiculoException;
 import com.everis.estacionamento.controller.dto.ClienteDtoParaEnviar;
 import com.everis.estacionamento.controller.dto.ClienteDtoParaReceber;
 import com.everis.estacionamento.model.Cliente;
@@ -76,9 +76,9 @@ public class ClienteController {
 		try {
 			clienteService.deleteById(id);
 			return ResponseEntity.ok().build();
-		} catch (NaoEPossivelDeleterClienteComVeiculoException e) {
-			e.getMessage();
-			return ResponseEntity.badRequest().build();
+		} catch (NaoEPossivelDeleterClienteComVeiculoException | EmptyResultDataAccessException e) {
+			System.out.println(e.getMessage());
+			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 
 	}		

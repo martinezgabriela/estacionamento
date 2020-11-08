@@ -15,5 +15,5 @@ public interface EstacionamentoService {
 	Estacionamento save(EstacionamentoDtoParaReceber estacionamento);
 	List<Estacionamento> findAll();
 	Estacionamento atualizar(Long id, EstacionamentoDtoParaReceber estacionamentoDto);
-
+	boolean estacionamentEstaCheio(Estacionamento estacionamento);
 }

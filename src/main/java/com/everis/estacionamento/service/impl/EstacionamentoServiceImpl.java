@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.everis.estacionamento.configuracao.validacao.NaoEPossivelDeleterClienteComVeiculoException;
+import com.everis.estacionamento.configuracao.exceptions.NaoEPossivelDeleterClienteComVeiculoException;
 import com.everis.estacionamento.controller.dto.EstacionamentoDtoParaReceber;
 import com.everis.estacionamento.model.Estacionamento;
 import com.everis.estacionamento.repository.EstacionamentoRepository;
@@ -70,5 +70,18 @@ public class EstacionamentoServiceImpl implements EstacionamentoService{
 			throw new NoSuchElementException("Elemento não encontrado");
 		}
 	}
+	
+	public boolean estacionamentEstaCheio(Estacionamento estac) {
+		Optional<Estacionamento> estacOptional = estacionamentoRepository.findById(estac.getId());
+		if(!estacOptional.isPresent()) {
+			throw new NoSuchElementException();
+		} else {
+			Estacionamento estacionamento = estacOptional.get();
+			return ticketService.quantidadeDeVagasDisponiveis(estacionamento)==0;
+			
+		}
+	}
+	
+	
 	
 }

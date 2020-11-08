@@ -1,4 +1,4 @@
-package com.everis.estacionamento.configuracao.validacao;
+package com.everis.estacionamento.configuracao.exceptions;
 
 public class NaoEPossivelDeleterClienteComVeiculoException extends RuntimeException {
 	

@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import com.everis.estacionamento.configuracao.validacao.NaoEPossivelDeleterClienteComVeiculoException;
+import com.everis.estacionamento.configuracao.exceptions.NaoEPossivelDeleterClienteComVeiculoException;
 import com.everis.estacionamento.model.Cliente;
 import com.everis.estacionamento.model.Veiculo;
 import com.everis.estacionamento.repository.ClienteRepository;
@@ -20,7 +21,8 @@ public class ClienteServiceImpl implements ClienteService {
 	ClienteRepository clienteRepository;
 
 	@Autowired
-	VeiculoService veiculoService;
+	private VeiculoService veiculoService;
+	
 
 	@Override
 	public List<Cliente> findAll() {

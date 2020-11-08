@@ -66,8 +66,17 @@ public class ClienteControllerTest {
 	}
 	
 	@Test
-	public void deveRemoverCliente() throws Exception {
+	public void NaodeveRemoverClientePoisClientePossuiVeiculo() throws Exception {
 		URI uri = new URI ("/clientes/1");
+		mvc.perform(MockMvcRequestBuilders.delete(uri)
+		.header("authorization", "Bearer " + gerarToken()))
+		.andExpect(MockMvcResultMatchers.status().is(400));
+		
+	}
+	
+	@Test
+	public void deveRemoverClientePoisClienteNaoPossuiVeiculo() throws Exception {
+		URI uri = new URI ("/clientes/27");
 		mvc.perform(MockMvcRequestBuilders.delete(uri)
 		.header("authorization", "Bearer " + gerarToken()))
 		.andExpect(MockMvcResultMatchers.status().is(200));

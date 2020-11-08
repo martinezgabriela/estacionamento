@@ -19,15 +19,15 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 @Entity
 @Table (name="TB_TICKET")
 public class Ticket {
-	
+
+
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	private Long id;
 	
 	@ManyToOne
 	@JoinColumn (name="fk_id_Veiculo")
-	private Veiculo veiculo;
-	
+	private Veiculo veiculo;	
 	
 	private LocalDateTime entrada;
 		
@@ -48,20 +48,55 @@ public class Ticket {
 		entrada = LocalDateTime.now();
 	}
 	
+	public Veiculo getVeiculo() {
+		return veiculo;
+	}
+
+	public LocalDateTime getEntrada() {
+		return entrada;
+	}
+
+	public LocalDateTime getSaida() {
+		return saida;
+	}
+
+	public double getValorEstadia() {
+		return valorEstadia;
+	}
+
+	public Estacionamento getEstacionamento() {
+		return estacionamento;
+	}
+	
 
 	public Long getId() {
 		return id;
 	}
 
+	public void setVeiculo(Veiculo veiculo) {
+		this.veiculo = veiculo;
+	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setEntrada(LocalDateTime entrada) {
+		this.entrada = entrada;
+	}
+
+	public void setSaida(LocalDateTime saida) {
+		this.saida = saida;
+	}
+
+	public void setValorEstadia(double valorEstadia) {
+		this.valorEstadia = valorEstadia;
+	}
+
+	public void setEstacionamento(Estacionamento estacionamento) {
+		this.estacionamento = estacionamento;
 	}
 
 
-	public LocalDateTime getDiaEntrada() {
-		return entrada;
-	}
+	
+	
+
 
 	
 	
