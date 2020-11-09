@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.everis.estacionamento.configuracao.exceptions.NaoEPossivelDeletarEstacionamentoComTicketsAtrelados;
 import com.everis.estacionamento.configuracao.exceptions.NaoEPossivelDeleterClienteComVeiculoException;
 import com.everis.estacionamento.controller.dto.EstacionamentoDtoParaReceber;
 import com.everis.estacionamento.model.Estacionamento;
@@ -46,7 +47,7 @@ public class EstacionamentoController {
 		try {
 			estacionamentoService.deleteById(id);
 		} catch (EmptyResultDataAccessException | NoSuchElementException
-				| NaoEPossivelDeleterClienteComVeiculoException e) {
+				| NaoEPossivelDeletarEstacionamentoComTicketsAtrelados e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 		return ResponseEntity.ok().build();

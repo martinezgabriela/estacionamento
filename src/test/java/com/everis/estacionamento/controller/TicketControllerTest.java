@@ -46,7 +46,7 @@ class TicketControllerTest {
 	@Test
 	public void deveCadastrarTicket() throws Exception {
 		URI uri = new URI("/tickets");
-		String json = "{\"idVeiculo\":\"2\",\"idEstacionamento\":\"1\"}";
+		String json = "{\"idVeiculo\":\"87\",\"idEstacionamento\":\"1\"}";
 		mvc.perform(MockMvcRequestBuilders.post(uri).content(json).contentType(MediaType.APPLICATION_JSON)
 				.header("authorization", "Bearer " + gerarToken())).andExpect(MockMvcResultMatchers.status().is(201));
 
@@ -78,7 +78,7 @@ class TicketControllerTest {
 	
 	@Test
 	public void deveRemoverTicket() throws Exception {
-		URI uri = new URI ("/tickets/66");
+		URI uri = new URI ("/tickets/62");
 		mvc.perform(MockMvcRequestBuilders.delete(uri)
 		.header("authorization", "Bearer " + gerarToken()))
 		.andExpect(MockMvcResultMatchers.status().is(200));

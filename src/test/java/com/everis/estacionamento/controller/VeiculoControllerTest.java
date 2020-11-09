@@ -66,7 +66,7 @@ class VeiculoControllerTest {
 	
 	@Test
 	public void deveRemoverVeiculo() throws Exception {
-		URI uri = new URI ("/veiculos/75");
+		URI uri = new URI ("/veiculos/97");
 		mvc.perform(MockMvcRequestBuilders.delete(uri)
 		.header("authorization", "Bearer " + gerarToken()))
 		.andExpect(MockMvcResultMatchers.status().is(200));

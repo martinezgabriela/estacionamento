@@ -19,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.everis.estacionamento.configuracao.exceptions.NaoEPossivelDeletarEstacionamentoComTicketsAtrelados;
 import com.everis.estacionamento.configuracao.exceptions.NaoEPossivelDeleterClienteComVeiculoException;
 import com.everis.estacionamento.controller.dto.EstacionamentoDtoParaReceber;
 import com.everis.estacionamento.model.Cliente;
@@ -110,7 +111,18 @@ class EstacionamentoServiceImplTest {
 
 	@Test
 	public void testaMetodoDeleteEstacionamentoLancaExcecao() {
-		Exception e = assertThrows(NaoEPossivelDeleterClienteComVeiculoException.class, () -> {
+		Estacionamento estacionamento = new Estacionamento(5, 7);
+		Cliente cliente = new Cliente ("Gabriela", "999889988", "gab@gmail.com");
+		Veiculo veiculo1 = new Veiculo ("XXX1111", "fiat", "azul", TipoVeiculo.CARRO, cliente);
+		Veiculo veiculo2 = new Veiculo ("MGM0009", "fiat", "azul", TipoVeiculo.CARRO, cliente);		
+		Ticket ticket1 = new Ticket (veiculo1, estacionamento);	
+		Ticket ticket2 = new Ticket (veiculo2, estacionamento);	
+		List <Ticket> tickets = new ArrayList<>();
+		tickets.add(ticket1);
+		tickets.add(ticket2);
+		
+		Mockito.when(ticketRepository.findByEstacionamentoId(1L)).thenReturn(tickets);
+		Exception e = assertThrows(NaoEPossivelDeletarEstacionamentoComTicketsAtrelados.class, () -> {
 			estacionamentoService.deleteById(1L);
 		});
 		String expectedMsg = "Não é possível deletar estacionamento com ticket atrelado.";

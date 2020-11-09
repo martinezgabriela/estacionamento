@@ -79,7 +79,7 @@ public class ClienteControllerTest {
 	
 	@Test
 	public void deveRemoverClientePoisClienteNaoPossuiVeiculo() throws Exception {
-		URI uri = new URI ("/clientes/50");
+		URI uri = new URI ("/clientes/43");
 		mvc.perform(MockMvcRequestBuilders.delete(uri)
 		.header("authorization", "Bearer " + gerarToken()))
 		.andExpect(MockMvcResultMatchers.status().is(200));

@@ -12,6 +12,8 @@ import javax.validation.constraints.NotNull;
 public class Estacionamento {
 	
 		
+	
+
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	private Long id;
@@ -27,6 +29,13 @@ public class Estacionamento {
 	}
 	
 	public Estacionamento(double valorTarifa, int totalVagasEstacionamento) {
+		this.valorTarifa = valorTarifa;
+		this.totalVagasEstacionamento = totalVagasEstacionamento;
+	}
+	
+	public Estacionamento(Long id, @NotNull double valorTarifa, @NotNull int totalVagasEstacionamento) {
+		
+		this.id = id;
 		this.valorTarifa = valorTarifa;
 		this.totalVagasEstacionamento = totalVagasEstacionamento;
 	}

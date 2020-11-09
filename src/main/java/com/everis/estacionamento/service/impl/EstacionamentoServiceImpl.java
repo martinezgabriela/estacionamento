@@ -7,12 +7,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.everis.estacionamento.configuracao.exceptions.NaoEPossivelDeletarEstacionamentoComTicketsAtrelados;
 import com.everis.estacionamento.configuracao.exceptions.NaoEPossivelDeleterClienteComVeiculoException;
 import com.everis.estacionamento.controller.dto.EstacionamentoDtoParaReceber;
 import com.everis.estacionamento.model.Estacionamento;
+import com.everis.estacionamento.model.Ticket;
 import com.everis.estacionamento.repository.EstacionamentoRepository;
 import com.everis.estacionamento.service.EstacionamentoService;
 import com.everis.estacionamento.service.TicketService;
+
 
 @Service
 public class EstacionamentoServiceImpl implements EstacionamentoService {
@@ -30,10 +33,11 @@ public class EstacionamentoServiceImpl implements EstacionamentoService {
 
 	@Override
 	public void deleteById(Long id) {
-		if (ticketService.findByEstacionamentoId(id) == null) {
+		List<Ticket> listaTickets = ticketService.findByEstacionamentoId(id);
+		if (listaTickets.isEmpty()) {
 			estacionamentoRepository.deleteById(id);
 		} else {
-			throw new NaoEPossivelDeleterClienteComVeiculoException(
+			throw new NaoEPossivelDeletarEstacionamentoComTicketsAtrelados(
 					"Não é possível deletar estacionamento com ticket atrelado.");
 		}
 	}
