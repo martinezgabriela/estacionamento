@@ -1,0 +1,3 @@
+Link público para acesso à collection postman:
+
+https://www.getpostman.com/collections/9d6b0635c5c546565904
