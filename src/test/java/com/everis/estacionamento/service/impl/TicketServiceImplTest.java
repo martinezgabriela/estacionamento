@@ -158,7 +158,7 @@ class TicketServiceImplTest {
 	}
 	
 	@Test 
-	public void testaMetodoSaveDeveLançarExcecaoNoSuchElement() {		
+	public void testaMetodoSaveDeveLancarExcecaoNoSuchElement() {		
 		TicketDtoParaReceber ticketDtoParaReceber = new TicketDtoParaReceber("1", "1");
 		Optional<Veiculo> optionalVeiculo = Optional.empty();
 		Mockito.when(veiculoService.findById(1L)).thenReturn(optionalVeiculo);
