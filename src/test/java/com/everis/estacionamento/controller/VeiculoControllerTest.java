@@ -54,8 +54,7 @@ class VeiculoControllerTest {
 		mvc.perform(MockMvcRequestBuilders.post(uri).content(json).contentType(MediaType.APPLICATION_JSON).
 				header("authorization", "Bearer " + gerarToken()))
 		.andExpect(MockMvcResultMatchers.status().is(201));
-	}
-	
+	}	
 	
 	
 	@Test
@@ -64,6 +63,25 @@ class VeiculoControllerTest {
 		mvc.perform(MockMvcRequestBuilders.get(uri).header("authorization", "Bearer " + gerarToken()))
 		.andExpect(MockMvcResultMatchers.status().is(200));
 	}
+	
+	@Test
+	public void deveRemoverVeiculo() throws Exception {
+		URI uri = new URI ("/veiculos/75");
+		mvc.perform(MockMvcRequestBuilders.delete(uri)
+		.header("authorization", "Bearer " + gerarToken()))
+		.andExpect(MockMvcResultMatchers.status().is(200));
+	}
+	
+	@Test
+	public void deveAtualizarEstacionamento() throws Exception {
+		URI uri = new URI("/veiculos/71");
+		String json = "{\"placa\":\"TES1235\",\"marca\":\"palio\",\"cor\":\"cinza\",\"tipoVeiculo\":\"moto\",\"idCliente\":19}";
+		mvc.perform(MockMvcRequestBuilders.put(uri).content(json).contentType(MediaType.APPLICATION_JSON)
+				.header("authorization", "Bearer " + gerarToken())).andExpect(MockMvcResultMatchers.status().is(200));
+	}
+	
+	
+		
 	
 	
 	

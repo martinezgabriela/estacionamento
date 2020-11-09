@@ -1,8 +1,14 @@
 package com.everis.estacionamento.service.impl;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,10 +27,10 @@ import com.everis.estacionamento.model.Estacionamento;
 import com.everis.estacionamento.model.Ticket;
 import com.everis.estacionamento.model.TipoVeiculo;
 import com.everis.estacionamento.model.Veiculo;
-import com.everis.estacionamento.repository.EstacionamentoRepository;
 import com.everis.estacionamento.repository.TicketRepository;
 import com.everis.estacionamento.service.EstacionamentoService;
 import com.everis.estacionamento.service.TicketService;
+import com.everis.estacionamento.service.VeiculoService;
 
 
 
@@ -50,6 +56,9 @@ class TicketServiceImplTest {
 	
 	@MockBean
 	private EstacionamentoService estacionamentoService;
+	
+	@MockBean
+	private VeiculoService veiculoService;
 	
 	@Test
 	public void testacalculoValorEstadiaConsiderandoQueUmaEstadiaDe60MinutosCustaOValorDaTarifa() {
@@ -124,10 +133,85 @@ class TicketServiceImplTest {
 		.thenReturn(tickets);
 		Assertions.assertThat(ticketService.verificaSeOVeiculoTemTicketEmAbertoNesteEstacionamento(1L, 1L))
 		.isEqualTo(true);
+	}
+	
+	@Test
+	public void testaFindBySaidaAndVeiculoIdAndEstacionamentoId() {
+		Estacionamento estacionamento = new Estacionamento(5, 7);
+		Cliente cliente = new Cliente ("Gabriela", "999889988", "gab@gmail.com");
+		Veiculo veiculo = new Veiculo ("MGM0009", "fiat", "azul", TipoVeiculo.CARRO, cliente);	
+		Mockito.when(ticketRepository.findBySaidaAndVeiculoIdAndEstacionamentoId(null, 1L, 1L))
+				.thenReturn(Stream.of(new Ticket (veiculo, estacionamento)).collect(Collectors.toList()));
+		Assertions.assertThat(ticketService.findBySaidaAndVeiculoIdAndEstacionamentoId(null, 1L, 1L).size())
+		.isEqualTo(1);
+	}
+	
+	@Test
+	public void testaFindBySaidaAndEstacionamentoId() {
+		Estacionamento estacionamento = new Estacionamento(5, 7);
+		Cliente cliente = new Cliente ("Gabriela", "999889988", "gab@gmail.com");
+		Veiculo veiculo = new Veiculo ("MGM0009", "fiat", "azul", TipoVeiculo.CARRO, cliente);	
+		Mockito.when(ticketRepository.findBySaidaAndEstacionamentoId(null, 1L))
+				.thenReturn(Stream.of(new Ticket (veiculo, estacionamento)).collect(Collectors.toList()));
+		Assertions.assertThat(ticketService.findBySaidaAndEstacionamentoId(null, 1L).size())
+		.isEqualTo(1);
+	}
+	
+	@Test 
+	public void testaMetodoSaveDeveLançarExcecaoNoSuchElement() {		
+		TicketDtoParaReceber ticketDtoParaReceber = new TicketDtoParaReceber("1", "1");
+		Optional<Veiculo> optionalVeiculo = Optional.empty();
+		Mockito.when(veiculoService.findById(1L)).thenReturn(optionalVeiculo);
+		Exception e = assertThrows(NoSuchElementException.class, () -> {
+			ticketService.save(ticketDtoParaReceber);
+		});
+		String expectedMsg = "Estacionamento não encontrado.";
+		String actualMsg = e.getMessage();
+		assertTrue(actualMsg.contains(expectedMsg));		
 		
 	}
 	
+	@Test
+	public void testaMetodoFindByIdDeveRetornarTotalVagasEstacionaentoDoTicket() {
+		Long id = 1L;
+		Estacionamento estacionamento = new Estacionamento(5, 7);
+		Cliente cliente = new Cliente ("Gabriela", "999889988", "gab@gmail.com");
+		Veiculo veiculo = new Veiculo ("XXX1111", "fiat", "azul", TipoVeiculo.CARRO, cliente);
+		Ticket ticket = new Ticket (veiculo, estacionamento);	
+		Mockito.when(ticketRepository.findById(id)).thenReturn(Optional.of(ticket));
+		Assertions.assertThat(ticketService.findById(id).get().getEstacionamento().getTotalVagasEstacionamento())
+		.isEqualTo(7);
+	}
 	
+	@Test
+	public void testaMetodoFindAll() {
+		Estacionamento estacionamento = new Estacionamento(5, 7);
+		Cliente cliente = new Cliente ("Gabriela", "999889988", "gab@gmail.com");
+		Veiculo veiculo1 = new Veiculo ("XXX1111", "fiat", "azul", TipoVeiculo.CARRO, cliente);
+		Veiculo veiculo2 = new Veiculo ("MGM0009", "fiat", "azul", TipoVeiculo.CARRO, cliente);		
+		Ticket ticket1 = new Ticket (veiculo1, estacionamento);	
+		Ticket ticket2 = new Ticket (veiculo2, estacionamento);	
+		List <Ticket> tickets = new ArrayList<>();
+		tickets.add(ticket1);
+		tickets.add(ticket2);
+		
+		Mockito.when(ticketRepository.findAll()).thenReturn(tickets);
+		Assertions.assertThat(ticketService.findAll()).size().isEqualTo(2);
+		
+	}	
+	
+	@Test
+	public void testaMetodoDeleteTicket() {
+		Estacionamento estacionamento = new Estacionamento(5, 7);
+		Cliente cliente = new Cliente ("Gabriela", "999889988", "gab@gmail.com");
+		Veiculo veiculo = new Veiculo ("XXX1111", "fiat", "azul", TipoVeiculo.CARRO, cliente);
+		Ticket ticket = new Ticket (veiculo, estacionamento);	
+		ticketService.deleteById(ticket.getId());
+		Mockito.verify(ticketRepository, Mockito.times(1)).deleteById(ticket.getId());			
+	}
+
+
+
 	
 	
 	

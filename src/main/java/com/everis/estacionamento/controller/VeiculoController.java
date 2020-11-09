@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -75,8 +76,8 @@ public class VeiculoController {
 	public ResponseEntity<?> removerVeiculo(@PathVariable Long id) {
 		try {
 			veiculoService.deleteById(id);
-		} catch (EmptyResultDataAccessException | NoSuchElementException e) {
-			return ResponseEntity.notFound().build();
+		} catch (EmptyResultDataAccessException | NoSuchElementException | DataIntegrityViolationException e ) {
+			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 		return ResponseEntity.ok().build();
 	}

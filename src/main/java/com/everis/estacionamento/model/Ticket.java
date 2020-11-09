@@ -35,6 +35,9 @@ public class Ticket {
 
 	public Ticket() {
 	}
+	
+
+
 
 	public Ticket(Veiculo veiculo, Estacionamento estacionamento) {
 		this.veiculo = veiculo;

@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.everis.estacionamento.model.Cliente;
+import com.everis.estacionamento.model.Estacionamento;
+import com.everis.estacionamento.model.Ticket;
 import com.everis.estacionamento.model.TipoVeiculo;
 import com.everis.estacionamento.model.Veiculo;
 import com.everis.estacionamento.repository.VeiculoRepository;
@@ -48,11 +50,7 @@ class VeiculoServiceImplTest {
 		Assertions.assertThat(veiculoService.findById(id).get().getCor()).isEqualTo("azul");	
 	}
 	
-	@Test
-	
-	public void testandoSave() {
-		
-	}
+
 	
 	
 	

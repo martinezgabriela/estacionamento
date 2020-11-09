@@ -13,7 +13,6 @@ public interface TicketService {
 	
 	Optional<Ticket> findById(Long id);
 	List<Ticket> findAll();
-	Ticket save(Ticket ticket);
 	void deleteById(Long id);		
 	public List<Ticket> findByVeiculoPlaca(String placa);
 	Ticket save(TicketDtoParaReceber ticketDtoParaReceber);

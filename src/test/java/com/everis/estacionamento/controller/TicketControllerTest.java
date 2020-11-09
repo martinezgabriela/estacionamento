@@ -59,5 +59,38 @@ class TicketControllerTest {
 				.andExpect(MockMvcResultMatchers.status().is(200));
 
 	}
+	
+	@Test
+	public void deveListarTickets() throws Exception {
+		URI uri = new URI ("/tickets");
+		mvc.perform(MockMvcRequestBuilders.get(uri)
+		.header("authorization", "Bearer " + gerarToken()))
+		.andExpect(MockMvcResultMatchers.status().is(200));
+	}
+	
+	@Test
+	public void deveListarTicketsPelaPlaca() throws Exception {
+		URI uri = new URI ("/tickets/?placa=MGM9090");
+		mvc.perform(MockMvcRequestBuilders.get(uri)
+		.header("authorization", "Bearer " + gerarToken()))
+		.andExpect(MockMvcResultMatchers.status().is(200));
+	}
+	
+	@Test
+	public void deveRemoverTicket() throws Exception {
+		URI uri = new URI ("/tickets/66");
+		mvc.perform(MockMvcRequestBuilders.delete(uri)
+		.header("authorization", "Bearer " + gerarToken()))
+		.andExpect(MockMvcResultMatchers.status().is(200));
+	}
+	
+	@Test
+	public void deveTentarRemoverTicketPoremDarExcecaoPoisIdInvalido() throws Exception {
+		URI uri = new URI ("/tickets/660");
+		mvc.perform(MockMvcRequestBuilders.delete(uri)
+		.header("authorization", "Bearer " + gerarToken()))
+		.andExpect(MockMvcResultMatchers.status().is(400));
+	}
+	
 
 }

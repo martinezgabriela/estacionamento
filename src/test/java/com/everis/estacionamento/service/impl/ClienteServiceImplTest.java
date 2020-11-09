@@ -1,5 +1,6 @@
 package com.everis.estacionamento.service.impl;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.everis.estacionamento.model.Cliente;
+import com.everis.estacionamento.model.Estacionamento;
 import com.everis.estacionamento.repository.ClienteRepository;
 import com.everis.estacionamento.service.ClienteService;
 
@@ -58,6 +60,15 @@ public class ClienteServiceImplTest {
 		Mockito.when(clienteRepository.findByNome(nome)).thenReturn(Stream.of(new Cliente ("Gabriela",
 				"998189815", "gabriela@gmail.com")).collect(Collectors.toList()));
 		Assertions.assertThat(clienteService.findByNome(nome).size()).isEqualTo(1);	
+	}
+	
+	@Test
+	public void testafindById() {
+		Long id = 1L;
+		Cliente cliente = new Cliente ("Ana", "9999999", "ana@gmail.com");
+		Mockito.when(clienteRepository.findById(id)).thenReturn(Optional.of(cliente));
+		Assertions.assertThat(cliente.getId()).isEqualTo((clienteRepository.findById(id)).get().getId());
+		
 	}
 	
 	

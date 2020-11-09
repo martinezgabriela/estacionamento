@@ -84,6 +84,14 @@ public class ClienteControllerTest {
 		.header("authorization", "Bearer " + gerarToken()))
 		.andExpect(MockMvcResultMatchers.status().is(200));
 		
+	}	
+	
+	@Test
+	public void deveListarClientes() throws Exception {
+		URI uri = new URI ("/clientes");
+		mvc.perform(MockMvcRequestBuilders.get(uri)
+		.header("authorization", "Bearer " + gerarToken()))
+		.andExpect(MockMvcResultMatchers.status().is(200));
 	}
 
 }
